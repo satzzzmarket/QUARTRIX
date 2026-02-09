@@ -141,79 +141,6 @@
       line-height: 1.4;
     }
 
-    section#jadwal {
-      margin-top: 4rem;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    section#jadwal h2 {
-      color: #d1b3ff;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #3a0f70;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(58, 15, 112, 0.7);
-    }
-    th, td {
-      padding: 1rem;
-      text-align: left;
-      color: #c9a7ff;
-    }
-    th {
-      background: #4a1a80;
-      color: #d1b3ff;
-    }
-    tr:nth-child(even) {
-      background: #2e0854;
-    }
-
-    section#siswa {
-      margin-top: 4rem;
-      max-width: 1100px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    section#siswa h2 {
-      color: #d1b3ff;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-    .siswa-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1.5rem;
-    }
-    .siswa-card {
-      background: #3a0f70;
-      padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(58, 15, 112, 0.5);
-      transition: transform 0.3s ease;
-      text-align: center;
-    }
-    .siswa-card:hover {
-      transform: scale(1.05);
-    }
-    .siswa-card img {
-      width: 120px;
-      height: 160px;
-      border-radius: 0;
-      object-fit: cover;
-      margin-bottom: 0.5rem;
-      box-shadow: 0 0 10px #a87fff;
-    }
-    .siswa-card p {
-      color: #c9a7ff;
-      font-size: 0.9rem;
-      margin: 0;
-    }
-
     footer {
       background: #3a0f70;
       text-align: center;
@@ -260,22 +187,19 @@
       .hero p {
         font-size: 1rem;
       }
-      .siswa-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="logo">
-      <img src="https://img1.pixhost.to/images/8789/641798512_nuxoffc.jpg" alt="Logo Kelas X IPA" />
+      <img src="https://img1.pixhost.to/images/8789/641798512_nuxoffc.jpg" alt="Logo QUARTRIX" />
     </div>
     <h1>QUARTRIX</h1>
     <nav>
       <a href="#features">Fitur</a>
-      <a href="#jadwal">Jadwal</a>
-      <a href="#siswa">Siswa</a>
+      <a href="jadwal.html">Jadwal</a>  <!-- Link ke halaman jadwal terpisah -->
+      <a href="siswa.html">Siswa</a>   <!-- Link ke halaman siswa terpisah -->
     </nav>
   </header>
 
@@ -300,227 +224,17 @@
         <p>Akses daftar siswa kelas untuk kolaborasi dan komunikasi.</p>
       </div>
     </section>
-
-    <section id="jadwal">
-      <h2>Jadwal Pelajaran</h2>
-      <table>
-        <tr>
-          <th>Hari</th>
-          <th>Mata Pelajaran</th>
-          <th>Waktu</th>
-        </tr>
-        <tr>
-          <td>Senin</td>
-          <td>PKWU<br>
-            Kimia<br>
-            Matematika Minat<br>
-            Sejarah
-          </td>
-          <td>08:15 - 09:45<br>
-            10:15 - 11:40<br>
-            12:30 - 13:50<br>
-            13:50 - 15:00
-          </td>
-        </tr>
-        <tr>
-          <td>Selasa</td>
-          <td>Bimbingan Konseling<br>
-            Matematika Wajib<br>
-            Penjaskes<br>
-            Fisika<br>
-            Bahasa Inggris
-          </td>
-          <td>07:00 - 07:40<br>
-            07:40 - 09:00<br>
-            09:00 - 11:30<br>
-            12:20 - 13:40<br>
-            13:40 - 15:00
-          </td>
-        </tr>
-        <tr>
-          <td>Rabu</td>
-          <td>Bahasa Indonesia<br>
-            Matematika Minat<br>
-            Seni Budaya<br>
-            Biologi<br>
-            Fisika
-          </td>
-          <td>07:00 - 08:20<br>
-            08:20 - 09:40<br>
-            10:10 - 11:30<br>
-            12:20 - 13:40<br>
-            13:40 - 15:00
-          </td>
-        </tr>
-        <tr>
-          <td>Kamis</td>
-          <td>Bahasa Jawa<br>
-            Kimia<br>
-            Biologi<br>
-            Agama<br>
-            Bahasa Indonesia
-          </td>
-          <td>07:00 - 07:40<br>
-            07:40 - 09:40<br>
-            10:10 - 10:50<br>
-            12:20 - 13:40<br>
-            13:40 - 15:00
-          </td>
-        </tr>
-        <tr>
-          <td>Jumat</td>
-          <td>Matematika Wajib<br>
-            BMQ<br>
-            PPKn
-          </td>
-          <td>07:00 - 08:30<br>
-            08:30 - 09:15<br>
-            09:45 - 11:15
-          </td>
-        </tr>
-      </table>
-    </section>
-
-    <section id="siswa">
-      <h2>Daftar Siswa</h2>
-      <div class="siswa-grid">
-        <div class="siswa-card">
-          <img src="https://img2.pixhost.to/images/5633/693404339_img_20260209_183246.jpg" alt="Foto Siswa 1">
-          <p>AGUSTINE DYAH AYU RAHMADANI</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404335_img_20260209_183132.jpg" alt="Foto Siswa 2">
-          <p>AHMAD FAISHAL ZAUMAR</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404366_img_20260209_184302.jpg" alt="Foto Siswa 3">
-          <p>ALANA GEIZEL FAEDAH ALAM</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404358_img_20260209_183936.jpg" alt="Foto Siswa 4">
-          <p>ALYA NAFEEZA AZZAHRO</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404322_img_20260209_182627.jpg" alt="Foto Siswa 5">
-          <p>ANNISA PRIMADITA MUSAFA</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404331_img_20260209_182919.jpg" alt="Foto Siswa 6">
-          <p>ARYA ISSYA MAHENDRA</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404377_img_20260209_184614.jpg" alt="Foto Siswa 7">
-          <p>BERLIANA FAIRUZ IZDIHAR</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404329_img_20260209_182825.jpg" alt="Foto Siswa 8">
-          <p>CLEON ADLI DANENDRA OMAN</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404333_img_20260209_182958.jpg" alt="Foto Siswa 9">
-          <p>EIVEL FLORAYSA NADINDA ARDYALOVA</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404325_img_20260209_182704.jpg" alt="Foto Siswa 10">
-          <p>EVELYN GABRIEL ECHA CARERA</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404340_img_20260209_183342.jpg" alt="Foto Siswa 11">
-          <p>EZHAR AIRLANGGA RISTANSYAH</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404361_img_20260209_184007.jpg" alt="Foto Siswa 12">
-          <p>FALIA PUTRI ELLYZA</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404364_img_20260209_184227.jpg" alt="Foto Siswa 13">
-          <p>HANINDIA ASYAWA KAYNAHAYA</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404349_img_20260209_183628.jpg" alt="Foto Siswa 14">
-          <p>HANUNG ELYA PINANDITA</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404346_img_20260209_183524.jpg" alt="Foto Siswa 15">
-          <p>HELMY ARSYAD DARMAWAN</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404368_img_20260209_184404.jpg" alt="Foto Siswa 16">
-          <p>HENDARSO WIRATMOKO</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404371_img_20260209_184445.jpg" alt="Foto Siswa 17">
-          <p>JAGAD CAHYO ADY</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404352_img_20260209_183658.jpg" alt="Foto Siswa 18">
-          <p>JESSICA AFA MARTANIA</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404341_img_20260209_183409.jpg" alt="Foto Siswa 19">
-          <p>KAYLA AMANDA SYAMSAFINA</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404362_img_20260209_184036.jpg" alt="Foto Siswa 20">
-          <p>KEVIN APRILIO</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404355_img_20260209_183827.jpg" alt="Foto Siswa 21">
-          <p>LINTANG YULIDHA PUTRI</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404343_img_20260209_183445.jpg" alt="Foto Siswa 22">
-          <p>MUHAMMAD IBNU KHALDUN ALFAUZI</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404320__storage_emulated_0_download_img_20260209_184730.jpg" alt="Foto Siswa 23">
-          <p>NABIL MAHIDARA ARTANTO</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404334_img_20260209_183045.jpg" alt="Foto Siswa 24">
-          <p>NABILA KIRANA CANTYA PUTRI</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404347_img_20260209_183601.jpg" alt="Foto Siswa 25">
-          <p>NADIA REYSSA IRVANA PUTRI</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404327_img_20260209_182743.jpg" alt="Foto Siswa 26">
-          <p>NATHANAEL ABIRA SETYO BUDI</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404376_img_20260209_184525.jpg" alt="Foto Siswa 27">
-          <p>NATHANIA NARESWARI BRAHMA PUTRI</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404357_img_20260209_183901.jpg" alt="Foto Siswa 28">
-          <p>NIDA ULHAQ NUR SYIFA</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404379_img_20260209_184705.jpg" alt="Foto Siswa 29">
-          <p>NISRINA MARYAM</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404367_img_20260209_184332.jpg" alt="Foto Siswa 30">
-          <p>PHILLIPUS ADE MAHENDRA PUTRA</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404336_img_20260209_183211.jpg" alt="Foto Siswa 31">
-          <p>PRISYA NOVI ANGGRAENI</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404363_img_20260209_184107.jpg" alt="Foto Siswa 32">
-          <p>RENITA ISNABILA</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404354_img_20260209_183800.jpg" alt="Foto Siswa 33">
-          <p>SEDYO SAKA PRATAMA</p>
-        </div>
-        <div class="siswa-card">
-          <img src="https://t2.pixhost.to/thumbs/5633/693404378_img_20260209_184644.jpg" alt="Foto Siswa 34">
-          <p>SELLA RAHMA YUNANDA</p>
-     </section>
   </main>
-<footer>
-&copy; 2025 QUARTRIX. Semua hak cipta dilindungi.
-</footer>
+
+  <footer>
+    &copy; 2025 QUARTRIX. Semua hak cipta dilindungi.
+  </footer>
+
+  <script>
+    // Smooth scroll untuk tombol "Pelajari Lebih Lanjut"
+    document.getElementById('learnMoreBtn').addEventListener('click', function() {
+      document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
