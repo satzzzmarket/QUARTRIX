@@ -87,6 +87,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 2rem;
+      animation: fadeInUp 1s ease forwards;
     }
     .foto-card {
       background: #3a0f70;
@@ -123,11 +124,21 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
     }
 
-    /* Animations */
+         /* Animations */
     @keyframes fadeInDown {
       0% {
         opacity: 0;
         transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+     @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
       }
       100% {
         opacity: 1;
