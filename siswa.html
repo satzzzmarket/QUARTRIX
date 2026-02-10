@@ -81,13 +81,10 @@
       margin-bottom: 2rem;
       text-align: center;
     }
-    /* Ubah dari grid ke flexbox untuk satu baris horizontal tanpa wrap */
     .siswa-grid {
-      display: flex;
-      flex-wrap: nowrap; /* Tidak wrap ke baris baru */
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 1.5rem;
-      overflow-x: auto; /* Scroll horizontal jika tidak muat */
-      padding-bottom: 1rem; /* Ruang untuk scrollbar */
     }
     .siswa-card {
       background: #3a0f70;
@@ -96,8 +93,6 @@
       box-shadow: 0 2px 10px rgba(58, 15, 112, 0.5);
       transition: transform 0.3s ease;
       text-align: center;
-      flex-shrink: 0; /* Kartu tidak menyusut */
-      width: 150px; /* Lebar tetap untuk konsistensi */
     }
     .siswa-card:hover {
       transform: scale(1.05);
@@ -134,15 +129,10 @@
         margin-left: 1rem;
         font-size: 0.9rem;
       }
-      .siswa-card {
-        width: 120px; /* Lebih kecil di mobile */
-      }
-      .siswa-card img {
-        width: 100px;
-        height: 130px;
-      }
-      .siswa-card p {
-        font-size: 0.8rem;
+      .siswa-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
       }
     }
   </style>
