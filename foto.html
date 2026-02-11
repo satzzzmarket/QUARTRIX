@@ -89,8 +89,10 @@ section#foto h2 {
 /* GRID FOTO */
 .foto-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: 1fr; /* ✅ 1 foto = 1 baris */
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto; /* center */
   animation: fadeInUp 1s ease forwards;
 }
 
@@ -110,9 +112,10 @@ section#foto h2 {
 
 .foto-card img {
   width: 100%;
-  height: auto;      /* ✅ otomatis sesuai gambar */
-  object-fit: contain; /* opsional, biar tidak terpotong */
-  border-radius: 8px;
+  height: auto;
+  max-height: 80vh;   /* ✅ besar tapi tidak kelewat layar */
+  object-fit: contain;
+  border-radius: 12px;
 }
 
 .foto-card p {
