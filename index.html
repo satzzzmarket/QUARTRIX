@@ -58,11 +58,118 @@
       color: #fff5e6;
       flex-grow: 1;
     }
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(135deg, #ff8c42, #ff6b1a);
+      flex-direction: column;
+      padding: 2rem 2rem 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.4s ease;
+      gap: 1.5rem;
+      z-index: 101;
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid #fff5e6;
+    }
+    nav.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
     nav a {
-      margin-left: 1.5rem;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 1.2rem;
       cursor: pointer;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      background: rgba(255, 245, 230, 0.1);
+      border: 1px solid rgba(255, 245, 230, 0.3);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transform: translateY(-20px);
+      opacity: 0;
+      animation: slideIn 0.5s ease forwards;
+    }
+    nav a:nth-child(1) { animation-delay: 0.1s; }
+    nav a:nth-child(2) { animation-delay: 0.2s; }
+    nav a:nth-child(3) { animation-delay: 0.3s; }
+    nav a:nth-child(4) { animation-delay: 0.4s; }
+    nav a:hover {
+      background: rgba(255, 245, 230, 0.3);
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(255,140,66,0.5);
+    }
+    nav a::before {
+      content: '';
+      width: 20px;
+      height: 20px;
+      background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDMTMuMSAyIDE0IDIuOSAxNCA0VjE2QzE0IDE3LjEgMTMuMSAxOCA5IDE4VjE2QzYuOSAxNiA2IDE1LjEgNiAxNFY0QzYgMi45IDYuOSAyIDggMkgxMFoiIGZpbGw9IiNmZmY1ZTYiLz4KPC9zdmc+') no-repeat center;
+      background-size: contain;
+      flex-shrink: 0;
+    }
+    nav a:nth-child(1)::before { background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDMTMuMSAyIDE0IDIuOSAxNCA0VjE2QzE0IDE3LjEgMTMuMSAxOCA5IDE4VjE2QzYuOSAxNiA2IDE1LjEgNiAxNFY0QzYgMi45IDYuOSAyIDggMkgxMFoiIGZpbGw9IiNmZmY1ZTYiLz4KPC9zdmc+'); }
+    nav a:nth-child(2)::before { background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDMTMuMSAyIDE0IDIuOSAxNCA0VjE2QzE0IDE3LjEgMTMuMSAxOCA5IDE4VjE2QzYuOSAxNiA2IDE1LjEgNiAxNFY0QzYgMi45IDYuOSAyIDggMkgxMFoiIGZpbGw9IiNmZmY1ZTYiLz4KPC9zdmc+'); }
+    nav a:nth-child(3)::before { background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDMTMuMSAyIDE0IDIuOSAxNCA0VjE2QzE0IDE3LjEgMTMuMSAxOCA5IDE4VjE2QzYuOSAxNiA2IDE1LjEgNiAxNFY0QzYgMi45IDYuOSAyIDggMkgxMFoiIGZpbGw9IiNmZmY1ZTYiLz4KPC9zdmc+'); }
+    nav a:nth-child(4)::before { background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDMTMuMSAyIDE0IDIuOSAxNCA0VjE2QzE0IDE3LjEgMTMuMSAxOCA5IDE4VjE2QzYuOSAxNiA2IDE1LjEgNiAxNFY0QzYgMi45IDYuOSAyIDggMkgxMFoiIGZpbGw9IiNmZmY1ZTYiLz4KPC9zdmc+'); }
+    @keyframes slideIn {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 6px;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(255, 245, 230, 0.1);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .hamburger:hover {
+      background: rgba(255, 245, 230, 0.2);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+    .hamburger span {
+      width: 30px;
+      height: 4px;
+      background: #fff5e6;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .hamburger span::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: inherit;
+      border-radius: inherit;
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    .hamburger:hover span::before {
+      transform: scaleX(1);
+    }
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(-45deg) translate(-7px, 7px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(45deg) translate(-7px, -7px);
     }
 
     main {
@@ -179,13 +286,6 @@
         font-size: 1.4rem;
       }
       nav a {
-        margin-left: 1rem;
-        font-size: 0.9rem;
-      }
-      .hero h2 {
-        font-size: 2rem;
-      }
-      .hero p {
         font-size: 1rem;
       }
     }
@@ -197,13 +297,20 @@
       <img src="https://i.ibb.co.com/7xxVWwH7/IMG-8428.png" alt="Logo QUARTRIX" />
     </div>
     <h1><a href="index.html">QUARTRIX</a></h1>
-    <nav>
-      <a href="index.html">Beranda</a>
-      <a href="foto.html">Foto</a>
-      <a href="jadwal.html">Jadwal</a>
-      <a href="siswa.html">Siswa</a>
-    </nav>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </header>
+
+  <nav id="navMenu">
+    <a href="index.html">Beranda</a>
+    <a href="jadwal.html">Jadwal</a>
+    <a href="foto.html">Foto</a>
+    <a href="siswa.html">Siswa</a>
+    <a href="struktur.html">Struktur</a>
+  </nav>
 
   <main>
     <section class="hero">
@@ -212,31 +319,28 @@
       <button class="btn-primary" id="learnMoreBtn">Kelas Sebelas Empat SMAGA</button>
     </section>
 
-<section class="features" id="features">
+    <section class="features" id="features">
+      <a href="foto.html" class="feature-link">
+        <div class="feature-card">
+          <h3>Foto Kebersamaan</h3>
+          <p>Lihat foto-foto bersama seluruh anggota QUARTRIX.</p>
+        </div>
+      </a>
 
-  <a href="foto.html" class="feature-link">
-    <div class="feature-card">
-      <h3>Foto Kebersamaan</h3>
-      <p>Lihat foto-foto bersama seluruh anggota QUARTRIX.</p>
-    </div>
-  </a>
+      <a href="jadwal.html" class="feature-link">
+        <div class="feature-card">
+          <h3>Jadwal Interaktif</h3>
+          <p>Lihat jadwal pelajaran harian dengan tampilan yang mudah dibaca</p>
+        </div>
+      </a>
 
-  <a href="jadwal.html" class="feature-link">
-    <div class="feature-card">
-      <h3>Jadwal Interaktif</h3>
-      <p>Lihat jadwal pelajaran harian dengan tampilan yang mudah dibaca</p>
-    </div>
-  </a>
-
-  <a href="siswa.html" class="feature-link">
-    <div class="feature-card">
-      <h3>Daftar Siswa</h3>
-      <p>Akses daftar siswa kelas untuk kolaborasi dan komunikasi.</p>
-    </div>
-  </a>
-
-</section>
-
+      <a href="siswa.html" class="feature-link">
+        <div class="feature-card">
+          <h3>Daftar Siswa</h3>
+          <p>Akses daftar siswa kelas untuk kolaborasi dan komunikasi.</p>
+        </div>
+      </a>
+    </section>
   </main>
 
   <footer>
@@ -247,6 +351,15 @@
     // Smooth scroll untuk tombol "Pelajari Lebih Lanjut"
     document.getElementById('learnMoreBtn').addEventListener('click', function() {
       document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Toggle hamburger menu
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+
+    hamburger.addEventListener('click', function() {
+      hamburger.classList.toggle('active');
+      navMenu.classList.toggle('active');
     });
   </script>
 </body>
