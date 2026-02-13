@@ -1,177 +1,36 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dashboard - QUARTRIX</title>
-  <link rel="icon" href="https://i.ibb.co.com/7xxVWwH7/IMG-8428.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard - QUARTRIX</title>
+<link rel="icon" href="https://i.ibb.co.com/7xxVWwH7/IMG-8428.png">
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:'Poppins',sans-serif;
-    }
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{background:#5a3e2b;color:#fff5e6;min-height:100vh;display:flex;flex-direction:column}
+header{background:#ff8c42;padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center}
+header a{color:#fff5e6;text-decoration:none;letter-spacing:2px}
+.logout{background:#3e2c23;color:#fff;border:none;padding:10px 18px;border-radius:8px;font-weight:600;cursor:pointer}
+main{max-width:1000px;margin:auto;padding:2rem;flex:1}
+.card{background:#fff5e6;color:#3e2c23;border-radius:16px;padding:2rem;margin-bottom:2rem;box-shadow:0 10px 25px rgba(0,0,0,.35)}
+.card h2{margin-bottom:1rem;color:#5a3e2b}
+ul{list-style:none}
+li{padding:10px;border-bottom:1px solid #ddd;font-weight:600}
 
-    body{
-      background:#5a3e2b;
-      color:#fff5e6;
-      min-height:100vh;
-    }
+/* JADWAL */
+#jadwalButtons{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.hari-btn{background:#ff8c42;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-weight:600;cursor:pointer}
+.hari-btn.active{background:#3e2c23}
+#jadwalDetail li{border-left:4px solid #ff8c42;padding-left:12px}
 
-    header{
-      background:#ff8c42;
-      padding:1.5rem 2rem;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      box-shadow:0 4px 15px rgba(0,0,0,.3);
-    }
-
-    header h1 a{
-      color:#fff5e6;
-      text-decoration:none;
-      letter-spacing:2px;
-    }
-
-    .logout{
-      background:#3e2c23;
-      color:#fff5e6;
-      border:none;
-      padding:10px 18px;
-      border-radius:8px;
-      font-weight:600;
-      cursor:pointer;
-    }
-
-    main{
-      max-width:1000px;
-      margin:auto;
-      padding:2.5rem 2rem;
-    }
-
-    .card{
-      background:#fff5e6;
-      color:#3e2c23;
-      border-radius:16px;
-      padding:2rem;
-      margin-bottom:2rem;
-      box-shadow:0 10px 25px rgba(0,0,0,.35);
-    }
-
-    .card h2{
-      color:#5a3e2b;
-      margin-bottom:1rem;
-    }
-
-    #info{
-      font-size:1.2rem;
-      font-weight:600;
-    }
-
-    /* ADMIN PANEL */
-    #adminPanel{
-      display:none;
-    }
-
-    #adminPanel input{
-      width:100%;
-      padding:12px;
-      margin:8px 0;
-      border-radius:8px;
-      border:1px solid #ccc;
-    }
-
-    #adminPanel button{
-      background:#ff8c42;
-      color:#fff5e6;
-      border:none;
-      padding:12px;
-      width:100%;
-      border-radius:8px;
-      font-weight:600;
-      cursor:pointer;
-    }
-
-    /* JADWAL BUTTONS */
-    #jadwalButtons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .hari-btn {
-      background: #ff8c42;
-      color: #fff5e6;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .hari-btn:hover {
-      background: #e67e22;
-    }
-
-    .hari-btn.active {
-      background: #3e2c23;
-    }
-
-    /* JADWAL DETAIL */
-    #jadwalDetail {
-      display: none;
-    }
-
-    #jadwalDetail ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    #jadwalDetail li {
-      padding: 10px 0;
-      border-bottom: 1px solid #ddd;
-      font-weight: 600;
-    }
-
-    ul{
-      list-style:none;
-      margin-top:1rem;
-    }
-
-    li{
-      padding:12px 16px;
-      border-bottom:1px solid rgba(0,0,0,.15);
-      font-weight:600;
-    }
-
-    footer{
-      background:#3e2c23;
-      color:#fff5e6;
-      text-align:center;
-      padding:1.5rem;
-      margin-top:3rem;
-    }
-
-    /* Animations */
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @media(max-width:600px){
-      main{padding:1.5rem}
-    }
-  </style>
+/* ADMIN */
+#adminPanel input,#tambahTugasPanel input{
+  width:100%;padding:10px;margin:.4rem 0;border-radius:8px;border:1px solid #ccc
+}
+button{cursor:pointer}
+footer{text-align:center;padding:1rem;background:#3e2c23}
+</style>
 </head>
 
 <body>
@@ -183,148 +42,75 @@
 
 <main>
 
-  <div class="card">
-    <p id="info"></p>
-  </div>
+<div class="card"><p id="info"></p></div>
 
-  <div class="card" id="adminPanel">
-    <h2>Tambah Siswa (Admin)</h2>
-    <input type="text" id="namaBaru" placeholder="Nama Lengkap">
-    <input type="number" id="absenBaru" placeholder="Nomor Absen">
-    <button onclick="tambahSiswa()">Tambah Siswa</button>
-  </div>
+<div class="card" id="adminPanel" style="display:none">
+  <h2>Tambah Siswa</h2>
+  <input id="namaBaru" placeholder="Nama Lengkap">
+  <input id="absenBaru" type="number" placeholder="Nomor Absen">
+  <button onclick="tambahSiswa()">Tambah</button>
+</div>
 
-  <div class="card">
-    <h2>Jadwal Pelajaran</h2>
-    <div id="jadwalButtons"></div>
-    <div id="jadwalDetail"></div>
-  </div>
+<div class="card">
+  <h2>Jadwal Pelajaran</h2>
+  <div id="jadwalButtons"></div>
+  <ul id="jadwalDetail"></ul>
+</div>
 
-  <div class="card">
-    <h2>Daftar Tugas</h2>
-    <ul id="tugasList"></ul>
-    <div id="tambahTugasPanel" style="display:none; margin-top:1rem;">
-      <input type="text" id="tugasBaru" placeholder="Deskripsi Tugas">
-      <input type="date" id="deadlineBaru" placeholder="Deadline">
-      <button onclick="tambahTugas()">Tambah Tugas</button>
-    </div>
+<div class="card">
+  <h2>Daftar Tugas</h2>
+  <ul id="tugasList"></ul>
+  <div id="tambahTugasPanel" style="display:none;margin-top:1rem">
+    <input id="tugasBaru" placeholder="Deskripsi tugas">
+    <input id="deadlineBaru" type="date">
+    <button onclick="tambahTugas()">Tambah Tugas</button>
   </div>
+</div>
 
-  <div class="card">
-    <h2>Daftar Siswa</h2>
-    <ul id="siswaList"></ul>
-  </div>
+<div class="card">
+  <h2>Daftar Siswa</h2>
+  <ul id="siswaList"></ul>
+</div>
 
 </main>
 
-<footer>
-  &copy; 2025 QUARTRIX
-</footer>
+<footer>&copy; 2025 QUARTRIX</footer>
 
 <script>
-/* ================= CEK LOGIN ================= */
+/* LOGIN */
 const role = localStorage.getItem("role");
-const namaLogin = localStorage.getItem("nama");
-const absenLogin = localStorage.getItem("absen");
+const nama = localStorage.getItem("nama");
+const absen = localStorage.getItem("absen");
+if(!role) location.href="login.html";
 
-if (!role || !namaLogin) {
-  window.location.href = "login.html";
+/* INFO */
+info.innerText = role==="admin"
+  ? "Anda login sebagai ADMIN"
+  : `Selamat datang, ${nama} (Absen ${absen})`;
+
+/* ADMIN */
+if(role==="admin"){
+  adminPanel.style.display="block";
+  tambahTugasPanel.style.display="block";
 }
 
-/* ================= DATA AKUN ================= */
-let akunData = JSON.parse(localStorage.getItem("akunData")) || [
-  { nama: "ADMIN", absen: "admin123", role: "admin" }
-];
+/* SISWA */
+let siswaData = JSON.parse(localStorage.getItem("siswaData")) || [];
+function renderSiswa(){
+  siswaList.innerHTML="";
+  siswaData.sort((a,b)=>a.absen-b.absen);
+  siswaData.forEach(s=>{
+    const li=document.createElement("li");
+    li.textContent=`Absen ${s.absen} — ${s.nama}`;
+    siswaList.appendChild(li);
+  });
+  localStorage.setItem("siswaData",JSON.stringify(siswaData));
+}
+renderSiswa();
 
-// Daftar default siswa untuk ditambahkan jika belum ada di akunData
-const defaultSiswa = [
-  { nama: "AGUSTINE DYAH AYU RAHMADANI", absen: "1", role: "siswa" },
-  { nama: "AHMAD FAISHAL ZAUMAR", absen: "2", role: "siswa" },
-  { nama: "ALANA GEIZEL FAEDAH ALAM", absen: "3", role: "siswa" },
-  { nama: "ALYA NAFEEZA AZZAHRO", absen: "4", role: "siswa" },
-  { nama: "ANNISA PRIMADITA MUSAFA", absen: "5", role: "siswa" },
-  { nama: "ARYA ISSYA MAHENDRA", absen: "6", role: "siswa" },
-  { nama: "BERLIANA FAIRUZ IZDIHAR", absen: "7", role: "siswa" },
-  { nama: "CLEON ADLI DANENDRA OMAN", absen: "8", role: "siswa" },
-  { nama: "EIVEL FLORAYSA NADINDA ARDYALOVA", absen: "9", role: "siswa" },
-  { nama: "EVELYN GABRIEL ECHA CARERA", absen: "10", role: "siswa" },
-  { nama: "EZHAR AIRLANGGA RISTANSYAH", absen: "11", role: "siswa" },
-  { nama: "FALIA PUTRI ELLYZA", absen: "12", role: "siswa" },
-  { nama: "HANINDIA ASYAWA KAYNAHAYA", absen: "13", role: "siswa" },
-  { nama: "HANUNG ELYA PINANDITA", absen: "14", role: "siswa" },
-  { nama: "HELMY ARSYAD DARMAWAN", absen: "15", role: "siswa" },
-  { nama: "HENDARSO WIRATMOKO", absen: "16", role: "siswa" },
-  { nama: "JAGAD CAHYO ADY", absen: "17", role: "siswa" },
-  { nama: "JESSICA AFA MARTANIA", absen: "18", role: "siswa" },
-  { nama: "KAYLA AMANDA SYAMSAFINA", absen: "19", role: "siswa" },
-  { nama: "KEVIN APRILIO", absen: "20", role: "siswa" },
-  { nama: "LINTANG YULIDHA PUTRI", absen: "21", role: "siswa" },
-  { nama: "MUHAMMAD IBNU KHALDUN ALFAUZI", absen: "22", role: "siswa" },
-  { nama: "NABIL MAHIDARA ARTANTO", absen: "23", role: "siswa" },
-  { nama: "NABILA KIRANA CANTYA PUTRI", absen: "24", role: "siswa" },
-  { nama: "NADIA REYSSA IRVANA PUTRI", absen: "25", role: "siswa" },
-  { nama: "NATHANAEL ABIRA SETYO BUDI", absen: "26", role: "siswa" },
-  { nama: "NATHANIA NARESWARI BRAHMA PUTRI", absen: "27", role: "siswa" },
-  { nama: "NIDA ULHAQ NUR SYIFA", absen: "28", role: "siswa" },
-  { nama: "NISRINA MARYAM", absen: "29", role: "siswa" },
-  { nama: "PHILLIPUS ADE MAHENDRA PUTRA", absen: "30", role: "siswa" },
-  { nama: "PRISYA NOVI ANGGRAENI", absen: "31", role: "siswa" },
-  { nama: "RENITA ISNABILA", absen: "32", role: "siswa" },
-  { nama: "SEDYO SAKA PRATAMA", absen: "33", role: "siswa" },
-  { nama: "SELLA RAHMA YUNANDA", absen: "34", role: "siswa" }
-];
-
-// Tambahkan siswa default jika belum ada di akunData
-defaultSiswa.forEach(siswa => {
-  if (!akunData.some(a => a.absen === siswa.absen)) {
-    akunData.push(siswa);
-  }
-});
-
-// Simpan kembali ke localStorage
-localStorage.setItem("akunData", JSON.stringify(akunData));
-
-/* ================= DATA SISWA ================= */
-let siswaData = JSON.parse(localStorage.getItem("siswaData")) || [
-  { nama: "AGUSTINE DYAH AYU RAHMADANI", absen: 1 },
-  { nama: "AHMAD FAISHAL ZAUMAR", absen: 2 },
-  { nama: "ALANA GEIZEL FAEDAH ALAM", absen: 3 },
-  { nama: "ALYA NAFEEZA AZZAHRO", absen: 4 },
-  { nama: "ANNISA PRIMADITA MUSAFA", absen: 5 },
-  { nama: "ARYA ISSYA MAHENDRA", absen: 6 },
-  { nama: "BERLIANA FAIRUZ IZDIHAR", absen: 7 },
-  { nama: "CLEON ADLI DANENDRA OMAN", absen: 8 },
-  { nama: "EIVEL FLORAYSA NADINDA ARDYALOVA", absen: 9 },
-  { nama: "EVELYN GABRIEL ECHA CARERA", absen: 10 },
-  { nama: "EZHAR AIRLANGGA RISTANSYAH", absen: 11 },
-  { nama: "FALIA PUTRI ELLYZA", absen: 12 },
-  { nama: "HANINDIA ASYAWA KAYNAHAYA", absen: 13 },
-  { nama: "HANUNG ELYA PINANDITA", absen: 14 },
-  { nama: "HELMY ARSYAD DARMAWAN", absen: 15 },
-  { nama: "HENDARSO WIRATMOKO", absen: 16 },
-  { nama: "JAGAD CAHYO ADY", absen: 17 },
-  { nama: "JESSICA AFA MARTANIA", absen: 18 },
-  { nama: "KAYLA AMANDA SYAMSAFINA", absen: 19 },
-  { nama: "KEVIN APRILIO", absen: 20 },
-  { nama: "LINTANG YULIDHA PUTRI", absen: 21 },
-  { nama: "MUHAMMAD IBNU KHALDUN ALFAUZI", absen: 22 },
-  { nama: "NABIL MAHIDARA ARTANTO", absen: 23 },
-  { nama: "NABILA KIRANA CANTYA PUTRI", absen: 24 },
-  { nama: "NADIA REYSSA IRVANA PUTRI", absen: 25 },
-  { nama: "NATHANAEL ABIRA SETYO BUDI", absen: 26 },
-  { nama: "NATHANIA NARESWARI BRAHMA PUTRI", absen: 27 },
-  { nama: "NIDA ULHAQ NUR SYIFA", absen: 28 },
-  { nama: "NISRINA MARYAM", absen: 29 },
-  { nama: "PHILLIPUS ADE MAHENDRA PUTRA", absen: 30 },
-  { nama: "PRISYA NOVI ANGGRAENI", absen: 31 },
-  { nama: "RENITA ISNABILA", absen: 32 },
-  { nama: "SEDYO SAKA PRATAMA", absen: 33 },
-  { nama: "SELLA RAHMA YUNANDA", absen: 34 }
-];
-
-/* ================= DATA JADWAL ================= */
-let jadwalData = JSON.parse(localStorage.getItem("jadwalData")) || [
-  { hari: "Senin", mataPelajaran: "PKWU", waktu: "08:15 - 09:45" },
+/* JADWAL */
+const jadwalData = [
+ { hari: "Senin", mataPelajaran: "PKWU", waktu: "08:15 - 09:45" },
   { hari: "Senin", mataPelajaran: "Kimia", waktu: "10:15 - 11:40" },
   { hari: "Senin", mataPelajaran: "Matematika Minat", waktu: "12:30 - 13:50" },
   { hari: "Senin", mataPelajaran: "Sejarah", waktu: "13:50 - 15:00" },
@@ -346,153 +132,72 @@ let jadwalData = JSON.parse(localStorage.getItem("jadwalData")) || [
   { hari: "Jumat", mataPelajaran: "Matematika Wajib", waktu: "07:00 - 08:30" },
   { hari: "Jumat", mataPelajaran: "BMQ", waktu: "08:30 - 09:15" },
   { hari: "Jumat", mataPelajaran: "PPKn", waktu: "09:45 - 11:15" }
+
 ];
 
-/* ================= DATA TUGAS ================= */
-let tugasData = JSON.parse(localStorage.getItem("tugasData")) || [
-  { deskripsi: "Kerjakan soal matematika halaman 50", deadline: "2025-01-15" },
-  { deskripsi: "Buat resume buku yang dibaca", deadline: "2025-01-20" }
-];;
+const hariList = [...new Set(jadwalData.map(j => j.hari))]; 
+// Ambil daftar hari unik: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"]
 
-/* ================= DATA TUGAS ================= */
-let tugasData = JSON.parse(localStorage.getItem("tugasData")) || [
-  { deskripsi: "Kerjakan soal matematika halaman 50", deadline: "2025-01-15" },
-  { deskripsi: "Buat resume buku yang dibaca", deadline: "2025-01-20" }
-];
+hariList.forEach(h => {
+  const b = document.createElement("button");
+  b.textContent = h;
+  b.className = "hari-btn";
+  b.onclick = () => tampilJadwal(h, b);
+  jadwalButtons.appendChild(b);
+});
 
-/* ================= ELEMENT ================= */
-const info = document.getElementById("info");
-const adminPanel = document.getElementById("adminPanel");
-const siswaList = document.getElementById("siswaList");
-const jadwalTable = document.getElementById("jadwalTable");
-const tugasList = document.getElementById("tugasList");
-const tambahTugasPanel = document.getElementById("tambahTugasPanel");
-
-/* ================= INFO USER ================= */
-if (role === "admin") {
-  info.innerText = "Anda login sebagai ADMIN";
-  adminPanel.style.display = "block";
-  tambahTugasPanel.style.display = "block";
-} else {
-  info.innerText = `Selamat datang, ${namaLogin} (Absen ${absenLogin})`;
+function tampilJadwal(hari, btn) {
+  document.querySelectorAll(".hari-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  jadwalDetail.innerHTML = "";
+  jadwalData
+    .filter(j => j.hari === hari)
+    .forEach(j => {
+      const li = document.createElement("li");
+      li.textContent = `${j.mataPelajaran} (${j.waktu})`;
+      jadwalDetail.appendChild(li);
+    });
 }
 
-/* ================= RENDER SISWA ================= */
-function renderSiswa() {
-  siswaList.innerHTML = "";
-  siswaData.sort((a,b)=>a.absen-b.absen);
+// auto buka hari pertama
+tampilJadwal(hariList[0], jadwalButtons.children[0]);
 
-  siswaData.forEach(s => {
-    const li = document.createElement("li");
-    li.innerText = `Absen ${s.absen} — ${s.nama}`;
-    siswaList.appendChild(li);
-  });
 
-  localStorage.setItem("siswaData", JSON.stringify(siswaData));
-}
-
-renderSiswa();
-
-/* ================= RENDER JADWAL ================= */
-function renderJadwal() {
-  jadwalTable.innerHTML = `
-    <tr>
-      <th>Hari</th>
-      <th>Mata Pelajaran</th>
-      <th>Waktu</th>
-    </tr>
-  `;
-  jadwalData.forEach(j => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${j.hari}</td>
-      <td>${j.mataPelajaran}</td>
-      <td>${j.waktu}</td>
-    `;
-    jadwalTable.appendChild(tr);
-  });
-
-  localStorage.setItem("jadwalData", JSON.stringify(jadwalData));
-}
-
-renderJadwal();
-
-/* ================= RENDER TUGAS ================= */
-function renderTugas() {
-  tugasList.innerHTML = "";
-  tugasData.forEach(t => {
-    const li = document.createElement("li");
-    li.innerText = `${t.deskripsi} — Deadline: ${t.deadline}`;
+/* TUGAS */
+let tugasData = JSON.parse(localStorage.getItem("tugasData")) || [];
+function renderTugas(){
+  tugasList.innerHTML="";
+  tugasData.forEach(t=>{
+    const li=document.createElement("li");
+    li.textContent=`${t.deskripsi} — ${t.deadline}`;
     tugasList.appendChild(li);
   });
-
-  localStorage.setItem("tugasData", JSON.stringify(tugasData));
+  localStorage.setItem("tugasData",JSON.stringify(tugasData));
 }
-
 renderTugas();
 
-/* ================= TAMBAH SISWA (ADMIN) ================= */
-function tambahSiswa() {
-  const nama = document.getElementById("namaBaru").value.trim().toUpperCase();
-  const absen = document.getElementById("absenBaru").value.trim();
-
-  if (!nama || !absen) {
-    alert("Nama dan absen wajib diisi");
-    return;
-  }
-
-  if (siswaData.some(s => s.absen == absen)) {
-    alert("Absen sudah ada");
-    return;
-  }
-
-  siswaData.push({ nama: nama, absen: Number(absen) });
-  akunData.push({ nama: nama, absen: absen, role: "siswa" });
-
-  localStorage.setItem("siswaData", JSON.stringify(siswaData));
-  localStorage.setItem("akunData", JSON.stringify(akunData));
-
-  document.getElementById("namaBaru").value = "";
-  document.getElementById("absenBaru").value = "";
-
-  renderSiswa();
-  alert("Siswa berhasil ditambahkan & bisa login");
-}
-
-/* ================= TAMBAH TUGAS (ADMIN) ================= */
-function tambahTugas() {
-  if (role !== "admin") return;
-
-  const deskripsi = document.getElementById("tugasBaru").value.trim();
-  const deadline = document.getElementById("deadlineBaru").value.trim();
-
-  if (!deskripsi || !deadline) {
-    alert("Deskripsi dan deadline wajib diisi");
-    return;
-  }
-
-  tugasData.push({ deskripsi: deskripsi, deadline: deadline });
-
-  localStorage.setItem("tugasData", JSON.stringify(tugasData));
-
-  document.getElementById("tugasBaru").value = "";
-  document.getElementById("deadlineBaru").value = "";
-
+function tambahTugas(){
+  tugasData.push({
+    deskripsi:tugasBaru.value,
+    deadline:deadlineBaru.value
+  });
+  tugasBaru.value="";deadlineBaru.value="";
   renderTugas();
-  alert("Tugas berhasil ditambahkan");
 }
 
-/* ================= LOGOUT ================= */
-function logout() {
-  localStorage.removeItem("role");
-  localStorage.removeItem("nama");
-  localStorage.removeItem("absen");
-  window.location.href = "login.html";
+/* TAMBAH SISWA */
+function tambahSiswa(){
+  siswaData.push({nama:namaBaru.value.toUpperCase(),absen:+absenBaru.value});
+  namaBaru.value="";absenBaru.value="";
+  renderSiswa();
+}
+
+/* LOGOUT */
+function logout(){
+  localStorage.clear();
+  location.href="login.html";
 }
 </script>
 
 </body>
 </html>
-
-
-
