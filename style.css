@@ -1,98 +1,194 @@
+/* =========================
+   RESET & GLOBAL
+========================= */
 * {
-  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
 body {
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  background: linear-gradient(135deg, #5a3e2b, #3e2c23);
+  color: #fff5e6;
   min-height: 100vh;
-  margin: 0;
 }
 
+/* =========================
+   LOGIN PAGE
+========================= */
 .login-container {
-  background: white;
-  max-width: 350px;
-  padding: 25px;
-  margin: 80px auto;
-  border-radius: 12px;
+  background: #fff5e6;
+  max-width: 380px;
+  margin: 90px auto;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  animation: fadeUp 0.8s ease;
 }
 
-h2 {
+.login-container h2 {
   text-align: center;
+  color: #3e2c23;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
 }
 
 label {
   font-size: 14px;
+  color: #3e2c23;
+  font-weight: 600;
 }
 
 input {
   width: 100%;
-  padding: 10px;
-  margin: 8px 0 15px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  padding: 11px;
+  margin: 8px 0 16px;
+  border-radius: 10px;
+  border: 1px solid #d8c2ad;
+  outline: none;
+  background: #fff;
+  transition: 0.3s;
 }
 
+input:focus {
+  border-color: #ff8c42;
+  box-shadow: 0 0 0 2px rgba(255,140,66,0.25);
+}
+
+/* BUTTON */
 button {
   width: 100%;
-  padding: 10px;
-  background: #2a5298;
-  color: white;
+  padding: 12px;
   border: none;
-  border-radius: 6px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff8c42, #ff6b1a);
+  color: #fff5e6;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 6px 18px rgba(255,140,66,0.5);
 }
 
 button:hover {
-  opacity: 0.9;
+  transform: scale(1.04);
+  background: #3e2c23;
 }
 
+/* ADMIN LINK */
 .admin-link {
   text-align: center;
   font-size: 13px;
-  margin-top: 10px;
+  margin-top: 15px;
   cursor: pointer;
-  color: #2a5298;
+  color: #ff8c42;
+  font-weight: 600;
 }
 
+.admin-link:hover {
+  text-decoration: underline;
+}
+
+/* HIDDEN */
 .hidden {
   display: none;
 }
 
-/* DASHBOARD */
+/* =========================
+   DASHBOARD
+========================= */
 .navbar {
-  background: #1e3c72;
-  color: white;
-  padding: 12px 20px;
+  background: linear-gradient(135deg, #ff8c42, #ff6b1a);
+  padding: 14px 24px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 
+.navbar span {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.navbar button {
+  width: auto;
+  padding: 8px 16px;
+  background: #fff5e6;
+  color: #3e2c23;
+  border-radius: 10px;
+  font-size: 14px;
+  box-shadow: none;
+}
+
+.navbar button:hover {
+  background: #3e2c23;
+  color: #fff5e6;
+}
+
+/* DASHBOARD CONTENT */
 .dashboard {
-  padding: 30px;
-  color: white;
+  padding: 40px 25px;
+  text-align: center;
+}
+
+.dashboard h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.dashboard p {
+  opacity: 0.9;
+}
+
+/* MENU CARD */
+.menu {
+  margin-top: 30px;
 }
 
 .menu a {
   display: inline-block;
-  margin: 10px;
-  padding: 12px 18px;
-  background: white;
-  color: #1e3c72;
+  margin: 12px;
+  padding: 14px 22px;
+  background: #fff5e6;
+  color: #3e2c23;
+  border-radius: 14px;
   text-decoration: none;
-  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  transition: 0.3s;
 }
 
-.login-btn {
-  background: #2a5298;
-  color: white;
-  padding: 10px 18px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
+.menu a:hover {
+  background: #ff8c42;
+  color: #fff5e6;
+  transform: translateY(-4px);
 }
 
-.login-btn:hover {
-  opacity: 0.9;
+/* =========================
+   ANIMATION
+========================= */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 600px) {
+  .login-container {
+    margin: 60px 20px;
+  }
+
+  .dashboard h1 {
+    font-size: 1.6rem;
+  }
+}
