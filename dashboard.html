@@ -257,7 +257,7 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
           updateProfil(newNama, newAbsen, newAbsenLogin, fotoURL);
         };
         reader.readAsDataURL(fotoFile);
-        return; // Tunggu reader selesai
+        return; // Tunggu reader
       }
 
       updateProfil(newNama, newAbsen, newAbsenLogin, fotoURL);
@@ -276,6 +276,9 @@ function updateProfil(newNama, newAbsen, newAbsenLogin, fotoURL) {
   closeModal();
   alert("Profil berhasil disimpan!");
 };
+
+/* SISWA DATA (untuk login, tapi tidak ditampilkan) */
+let siswaData = JSON.parse(localStorage.getItem("siswaData")) || [];
 
 /* ADMIN */
 const adminPanel = document.getElementById("adminPanel");
@@ -298,9 +301,6 @@ function renderDaftarSiswa() {
   });
   daftarSiswaDiv.innerHTML += "</ul>";
 }
-
-/* SISWA DATA (untuk login, tapi tidak ditampilkan) */
-let siswaData = JSON.parse(localStorage.getItem("siswaData")) || [];
 
 /* JADWAL MENARIK */
 const jadwalData = [
@@ -491,15 +491,16 @@ btnUbahAbsen.addEventListener("click", function() {
   alert("Absen siswa berhasil diubah!");
   absenLama.value="";absenBaruAdmin.value="";
 });
-    
-    /* LOGOUT */
-    const logoutBtn = document.querySelector(".logout");
-    logoutBtn.addEventListener("click", function() {
-      localStorage.clear();
-      location.href="login.html";
-    });
+
+/* LOGOUT */
+const logoutBtn = document.querySelector(".logout");
+logoutBtn.addEventListener("click", function() {
+  localStorage.clear();
+  location.href="login.html";
+});
   }
 </script>
 
 </body>
 </html>
+
