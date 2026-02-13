@@ -16,7 +16,7 @@ main{max-width:1000px;margin:auto;padding:2rem;flex:1}
 .card{background:#fff5e6;color:#3e2c23;border-radius:16px;padding:2rem;margin-bottom:2rem;box-shadow:0 10px 25px rgba(0,0,0,.35)}
 .card h2{margin-bottom:1rem;color:#5a3e2b}
 ul{list-style:none}
-li{padding:10px;border-bottom:1px solid #ddd;font-weight:600}
+li{padding:10px;border-bottom:1px solid #ddd;font-weight:600;display:flex;justify-content:space-between;align-items:center}
 
 /* JADWAL */
 #jadwalButtons{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
@@ -29,6 +29,8 @@ li{padding:10px;border-bottom:1px solid #ddd;font-weight:600}
   width:100%;padding:10px;margin:.4rem 0;border-radius:8px;border:1px solid #ccc
 }
 button{cursor:pointer}
+.hapus-btn{background:#e74c3c;color:#fff;border:none;padding:5px 10px;border-radius:5px;font-size:0.8rem;cursor:pointer;margin-left:10px}
+.hapus-btn:hover{background:#c0392b}
 footer{text-align:center;padding:1rem;background:#3e2c23}
 </style>
 </head>
@@ -74,7 +76,7 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
 <!-- Firebase SDK dan Semua Kode JS -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-  import { getDatabase, ref, set, onValue, push } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+  import { getDatabase, ref, set, onValue, push, remove } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
   import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 
   // Config Firebase Anda
@@ -188,13 +190,21 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
 
     /* TUGAS - Menggunakan Firebase */
     let tugasData = [];
+    let tugasKeys = []; // Simpan key untuk hapus
     const tugasList = document.getElementById("tugasList");
 
     function renderTugas(){
       tugasList.innerHTML="";
-      tugasData.forEach(t=>{
-        const li=document.createElement("li");
-        li.textContent=`${t.deskripsi} — ${t.deadline}`;
+      tugasData.forEach((t, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<span>${t.deskripsi} — ${t.deadline}</span>`;
+        if(role === "admin") {
+          const hapusBtn = document.createElement("button");
+          hapusBtn.textContent = "Hapus";
+          hapusBtn.className = "hapus-btn";
+          hapusBtn.onclick = () => hapusTugas(tugasKeys[index]);
+          li.appendChild(hapusBtn);
+        }
         tugasList.appendChild(li);
       });
     }
@@ -204,6 +214,7 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
     onValue(tugasRef, (snapshot) => {
       const data = snapshot.val();
       tugasData = data ? Object.values(data) : [];
+      tugasKeys = data ? Object.keys(data) : [];
       renderTugas();
       console.log("Tugas diperbarui:", tugasData);
     });
@@ -237,6 +248,14 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
       });
       tugasBaru.value="";deadlineBaru.value="";
       alert("Tugas berhasil dipublish kepada semua siswa!");
+    }
+
+    function hapusTugas(key) {
+      if(role !== "admin") return;
+      if(confirm("Yakin ingin hapus tugas ini?")) {
+        remove(ref(db, 'tugas/' + key));
+        alert("Tugas berhasil dihapus!");
+      }
     }
 
     /* TAMBAH SISWA */
