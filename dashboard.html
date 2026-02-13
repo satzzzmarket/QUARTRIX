@@ -43,8 +43,8 @@ button{cursor:pointer}
 .tugas-desc{color:#333}
 .tugas-deadline{color:#666;font-size:0.9rem}
 .tugas-admin{display:flex;justify-content:space-between;align-items:center}
-.tugas-siswa{display:flex;justify-content:space-between;align-items:flex-start}
-.checkbox-selesai{margin-top:0.5rem;transform:scale(1.2);cursor:pointer}
+.tugas-selesai{text-decoration:line-through;color:#999}
+.checkbox{margin-right:10px;width:20px;height:20px}
 
 /* PROFIL */
 #info{display:flex;align-items:center;gap:1rem}
@@ -258,131 +258,149 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
     ];
     
     const hariList = [...new Set(jadwalData.map(j => j.hari))]; 
-    // Ambil daftar hari unik: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"]
+// Ambil daftar hari unik: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"]
 
-    const jadwalButtons = document.getElementById("jadwalButtons");
-    const jadwalDetail = document.getElementById("jadwalDetail");
+const jadwalButtons = document.getElementById("jadwalButtons");
+const jadwalDetail = document.getElementById("jadwalDetail");
 
-    hariList.forEach(h => {
-      const b = document.createElement("button");
-      b.textContent = h;
-      b.className = "hari-btn";
-      b.onclick = () => tampilJadwal(h, b);
-      jadwalButtons.appendChild(b);
+hariList.forEach(h => {
+  const b = document.createElement("button");
+  b.textContent = h;
+  b.className = "hari-btn";
+  b.onclick = () => tampilJadwal(h, b);
+  jadwalButtons.appendChild(b);
+});
+
+function tampilJadwal(hari, btn) {
+  document.querySelectorAll(".hari-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  jadwalDetail.innerHTML = "";
+  jadwalData
+    .filter(j => j.hari === hari)
+    .forEach(j => {
+      const card = document.createElement("div");
+      card.className = "jadwal-card";
+      card.innerHTML = `
+        <div class="jadwal-mapel">${j.mataPelajaran}</div>
+        <div class="jadwal-waktu">${j.waktu}</div>
+      `;
+      jadwalDetail.appendChild(card);
     });
+}
 
-    function tampilJadwal(hari, btn) {
-      document.querySelectorAll(".hari-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      jadwalDetail.innerHTML = "";
-      jadwalData
-        .filter(j => j.hari === hari)
-        .forEach(j => {
-          const card = document.createElement("div");
-          card.className = "jadwal-card";
-          card.innerHTML = `
-            <div class="jadwal-mapel">${j.mataPelajaran}</div>
-            <div class="jadwal-waktu">${j.waktu}</div>
-          `;
-          jadwalDetail.appendChild(card);
-        });
+// auto buka hari pertama
+tampilJadwal(hariList[0], jadwalButtons.children[0]);
+
+/* TUGAS MENARIK DENGAN CHECKLIST */
+let tugasData = [];
+let tugasKeys = []; // Simpan key untuk hapus
+let tugasSelesai = {}; // Status selesai per tugas per siswa
+const tugasList = document.getElementById("tugasList");
+
+function renderTugas(){
+  tugasList.innerHTML="";
+  tugasData.forEach((t, index) => {
+    const card = document.createElement("div");
+    card.className = "tugas-card";
+    const isSelesai = tugasSelesai[tugasKeys[index]] || false;
+    card.innerHTML = `
+      <div class="tugas-mapel ${isSelesai ? 'tugas-selesai' : ''}">${t.mapel}</div>
+      <div class="tugas-desc ${isSelesai ? 'tugas-selesai' : ''}">${t.deskripsi}</div>
+      <div class="tugas-deadline ${isSelesai ? 'tugas-selesai' : ''}">Deadline: ${t.deadline}</div>
+      <div class="tugas-admin">
+        ${role !== "admin" ? `<input type="checkbox" class="checkbox" ${isSelesai ? 'checked' : ''} onchange="toggleSelesai('${tugasKeys[index]}', this.checked)">` : ''}
+      </div>
+    `;
+    if(role === "admin") {
+      const hapusBtn = document.createElement("button");
+      hapusBtn.textContent = "Hapus";
+      hapusBtn.className = "hapus-btn";
+      hapusBtn.onclick = () => hapusTugas(tugasKeys[index]);
+      card.querySelector('.tugas-admin').appendChild(hapusBtn);
     }
+    tugasList.appendChild(card);
+  });
+}
 
-    // auto buka hari pertama
-    tampilJadwal(hariList[0], jadwalButtons.children[0]);
+// Load status selesai dari Firebase
+const selesaiRef = ref(db, 'tugasSelesai/' + absen);
+onValue(selesaiRef, (snapshot) => {
+  tugasSelesai = snapshot.val() || {};
+  renderTugas(); // Render ulang saat status berubah
+});
 
-    /* TUGAS - Menggunakan Firebase */
-    let tugasData = [];
-    let tugasKeys = []; // Simpan key untuk hapus
-    const tugasList = document.getElementById("tugasList");
+// Listen untuk perubahan tugas dari Firebase
+const tugasRef = ref(db, 'tugas');
+onValue(tugasRef, (snapshot) => {
+  const data = snapshot.val();
+  tugasData = data ? Object.values(data) : [];
+  tugasKeys = data ? Object.keys(data) : [];
+  renderTugas();
+  console.log("Tugas diperbarui:", tugasData);
+});
 
-    function renderTugas(){
-      tugasList.innerHTML="";
-      tugasData.forEach((t, index) => {
-        const card = document.createElement("div");
-        card.className = "tugas-card";
-        card.innerHTML = `
-          <div class="tugas-mapel">${t.mapel}</div>
-          <div class="tugas-desc">${t.deskripsi}</div>
-          <div class="tugas-deadline">Deadline: ${t.deadline}</div>
-        `;
-        if(role === "admin") {
-          const hapusBtn = document.createElement("button");
-          hapusBtn.textContent = "Hapus";
-          hapusBtn.className = "hapus-btn";
-          hapusBtn.onclick = () => hapusTugas(tugasKeys[index]);
-          card.innerHTML += '<div class="tugas-admin"></div>';
-          card.querySelector('.tugas-admin').appendChild(hapusBtn);
-        }
-        tugasList.appendChild(card);
-      });
-    }
+// Event listener untuk tombol tambah tugas
+const btnTambahTugas = document.getElementById("btnTambahTugas");
+btnTambahTugas.addEventListener("click", function() {
+  console.log("Tombol tambah tugas diklik");
+  tambahTugas();
+});
 
-    // Listen untuk perubahan real-time dari Firebase
-    const tugasRef = ref(db, 'tugas');
-    onValue(tugasRef, (snapshot) => {
-      const data = snapshot.val();
-      tugasData = data ? Object.values(data) : [];
-      tugasKeys = data ? Object.keys(data) : [];
-      renderTugas();
-      console.log("Tugas diperbarui:", tugasData);
-    });
+function tambahTugas(){
+  console.log("Fungsi tambahTugas dipanggil");
+  if(role !== "admin") {
+    console.log("Role bukan admin:", role);
+    alert("Hanya admin yang bisa menambah tugas!");
+    return;
+  }
+  const mapelBaru = document.getElementById("mapelBaru");
+  const tugasBaru = document.getElementById("tugasBaru");
+  const deadlineBaru = document.getElementById("deadlineBaru");
+  const mapel = mapelBaru.value.trim();
+  const desc = tugasBaru.value.trim();
+  const dead = deadlineBaru.value;
+  if(!mapel || !desc || !dead) {
+    alert("Isi semua field!");
+    return;
+  }
+  const newTugasRef = push(tugasRef);
+  set(newTugasRef, {
+    mapel: mapel,
+    deskripsi: desc,
+    deadline: dead
+  });
+  mapelBaru.value="";tugasBaru.value="";deadlineBaru.value="";
+  alert("Tugas berhasil dipublish kepada semua siswa!");
+}
 
-    // Event listener untuk tombol tambah tugas
-    const btnTambahTugas = document.getElementById("btnTambahTugas");
-    btnTambahTugas.addEventListener("click", function() {
-      console.log("Tombol tambah tugas diklik");
-      tambahTugas();
-    });
+function hapusTugas(key) {
+  if(role !== "admin") return;
+  if(confirm("Yakin ingin hapus tugas ini?")) {
+    remove(ref(db, 'tugas/' + key));
+    alert("Tugas berhasil dihapus!");
+  }
+}
 
-    function tambahTugas(){
-      console.log("Fungsi tambahTugas dipanggil");
-      if(role !== "admin") {
-        console.log("Role bukan admin:", role);
-        alert("Hanya admin yang bisa menambah tugas!");
-        return;
-      }
-      const mapelBaru = document.getElementById("mapelBaru");
-      const tugasBaru = document.getElementById("tugasBaru");
-      const deadlineBaru = document.getElementById("deadlineBaru");
-      const mapel = mapelBaru.value.trim();
-      const desc = tugasBaru.value.trim();
-      const dead = deadlineBaru.value;
-      if(!mapel || !desc || !dead) {
-        alert("Isi semua field!");
-        return;
-      }
-      const newTugasRef = push(tugasRef);
-      set(newTugasRef, {
-        mapel: mapel,
-        deskripsi: desc,
-        deadline: dead
-      });
-      mapelBaru.value="";tugasBaru.value="";deadlineBaru.value="";
-      alert("Tugas berhasil dipublish kepada semua siswa!");
-    }
+window.toggleSelesai = (key, checked) => {
+  if(role === "admin") return;
+  tugasSelesai[key] = checked;
+  set(selesaiRef, tugasSelesai);
+  renderTugas(); // Render ulang untuk efek visual
+};
 
-    function hapusTugas(key) {
-      if(role !== "admin") return;
-      if(confirm("Yakin ingin hapus tugas ini?")) {
-        remove(ref(db, 'tugas/' + key));
-        alert("Tugas berhasil dihapus!");
-      }
-    }
-
-    /* TAMBAH SISWA */
-    const namaBaru = document.getElementById("namaBaru");
-    const absenBaru = document.getElementById("absenBaru");
-    const btnTambahSiswa = document.getElementById("btnTambahSiswa");
-    btnTambahSiswa.addEventListener("click", function() {
-      const nama = namaBaru.value.trim().toUpperCase();
-      const abs = +absenBaru.value;
-      if(!nama || !abs) return alert("Isi semua field!");
-      siswaData.push({nama, absen: abs});
-      namaBaru.value="";absenBaru.value="";
-      localStorage.setItem("siswaData",JSON.stringify(siswaData));
-      alert("Siswa berhasil ditambahkan!");
-    });
+/* TAMBAH SISWA */
+const namaBaru = document.getElementById("namaBaru");
+const absenBaru = document.getElementById("absenBaru");
+const btnTambahSiswa = document.getElementById("btnTambahSiswa");
+btnTambahSiswa.addEventListener("click", function() {
+  const nama = namaBaru.value.trim().toUpperCase();
+  const abs = +absenBaru.value;
+  if(!nama || !abs) return alert("Isi semua field!");
+  siswaData.push({nama, absen: abs});
+  namaBaru.value="";absenBaru.value="";
+  localStorage.setItem("siswaData",JSON.stringify(siswaData));
+  alert("Siswa berhasil ditambahkan!");
+});
 
     /* LOGOUT */
     const logoutBtn = document.querySelector(".logout");
@@ -395,6 +413,7 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
 
 </body>
 </html>
+
 
 
 
