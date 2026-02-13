@@ -31,6 +31,13 @@ li{padding:10px;border-bottom:1px solid #ddd;font-weight:600;display:flex;justif
 button{cursor:pointer}
 .hapus-btn{background:#e74c3c;color:#fff;border:none;padding:5px 10px;border-radius:5px;font-size:0.8rem;cursor:pointer;margin-left:10px}
 .hapus-btn:hover{background:#c0392b}
+
+/* TUGAS MENARIK */
+.tugas-card{background:#f9f9f9;border:1px solid #ddd;border-radius:10px;padding:1rem;margin-bottom:1rem;display:flex;flex-direction:column;gap:0.5rem}
+.tugas-mapel{font-weight:700;color:#ff8c42;font-size:1.1rem}
+.tugas-desc{color:#333}
+.tugas-deadline{color:#666;font-size:0.9rem}
+.tugas-admin{display:flex;justify-content:space-between;align-items:center}
 footer{text-align:center;padding:1rem;background:#3e2c23}
 </style>
 </head>
@@ -61,9 +68,10 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
 
 <div class="card">
   <h2>Daftar Tugas</h2>
-  <ul id="tugasList"></ul>
+  <div id="tugasList"></div>
   <div id="tambahTugasPanel" style="display:none;margin-top:1rem">
-    <input id="tugasBaru" placeholder="Deskripsi tugas">
+    <input id="mapelBaru" placeholder="Mata Pelajaran (e.g., Matematika)">
+    <input id="tugasBaru" placeholder="Deskripsi Tugas">
     <input id="deadlineBaru" type="date">
     <button id="btnTambahTugas">Tambah Tugas</button>
   </div>
@@ -196,16 +204,22 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
     function renderTugas(){
       tugasList.innerHTML="";
       tugasData.forEach((t, index) => {
-        const li = document.createElement("li");
-        li.innerHTML = `<span>${t.deskripsi} — ${t.deadline}</span>`;
+        const card = document.createElement("div");
+        card.className = "tugas-card";
+        card.innerHTML = `
+          <div class="tugas-mapel">${t.mapel}</div>
+          <div class="tugas-desc">${t.deskripsi}</div>
+          <div class="tugas-deadline">Deadline: ${t.deadline}</div>
+        `;
         if(role === "admin") {
           const hapusBtn = document.createElement("button");
           hapusBtn.textContent = "Hapus";
           hapusBtn.className = "hapus-btn";
           hapusBtn.onclick = () => hapusTugas(tugasKeys[index]);
-          li.appendChild(hapusBtn);
+          card.innerHTML += '<div class="tugas-admin"></div>';
+          card.querySelector('.tugas-admin').appendChild(hapusBtn);
         }
-        tugasList.appendChild(li);
+        tugasList.appendChild(card);
       });
     }
 
@@ -233,20 +247,23 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
         alert("Hanya admin yang bisa menambah tugas!");
         return;
       }
+      const mapelBaru = document.getElementById("mapelBaru");
       const tugasBaru = document.getElementById("tugasBaru");
       const deadlineBaru = document.getElementById("deadlineBaru");
+      const mapel = mapelBaru.value.trim();
       const desc = tugasBaru.value.trim();
       const dead = deadlineBaru.value;
-      if(!desc || !dead) {
+      if(!mapel || !desc || !dead) {
         alert("Isi semua field!");
         return;
       }
       const newTugasRef = push(tugasRef);
       set(newTugasRef, {
+        mapel: mapel,
         deskripsi: desc,
         deadline: dead
       });
-      tugasBaru.value="";deadlineBaru.value="";
+      mapelBaru.value="";tugasBaru.value="";deadlineBaru.value="";
       alert("Tugas berhasil dipublish kepada semua siswa!");
     }
 
