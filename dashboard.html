@@ -82,6 +82,10 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
   <input id="namaBaru" placeholder="Nama Lengkap">
   <input id="absenBaru" type="number" placeholder="Nomor Absen">
   <button id="btnTambahSiswa">Tambah</button>
+  <h2>Ubah Absen Siswa</h2>
+  <input id="absenLama" type="number" placeholder="Absen Lama">
+  <input id="absenBaruAdmin" type="number" placeholder="Absen Baru">
+  <button id="btnUbahAbsen">Ubah Absen</button>
 </div>
 
 <div class="card">
@@ -110,6 +114,7 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
     <h2>Edit Profil</h2>
     <input id="editNama" placeholder="Nama Lengkap">
     <input id="editAbsen" type="number" placeholder="Nomor Absen Baru">
+    <input id="editAbsenLogin" type="number" placeholder="Absen Login Baru (untuk login)">
     <input id="editFoto" type="file" accept="image/*">
     <button onclick="simpanProfil()">Simpan</button>
   </div>
@@ -158,7 +163,7 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
 
     /* PROFIL */
     let profilData = { nama: nama, absen: absen, fotoURL: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9IiNmZmY1ZTYiLz4KPHBhdGggZD0iTTI1IDI1QzI3LjIgMjUgMjkgMjIuMiAyOSAyMEMyOSAxNy44IDI3LjIgMTYgMjUgMTZDMTYuOCAxNiAxNSAxNy44IDE1IDIwQzE1IDIyLjIgMTYuOCAyNSAyNSAyNVoiIGZpbGw9IiMzZTJjMjMiLz4KPHBhdGggZD0iTTMwIDI1QzMwIDI4LjMgMjcuMyAzMSAyNSAzMUMyMi43IDMxIDIwIDI4LjMgMjAgMjVDMjAgMjEuNyAyMi43IDE5IDI1IDE5QzI3LjMgMTkgMzAgMjEuNyAzMCAyNVoiIGZpbGw9IiMzZTJjMjMiLz4KPC9zdmc+" };
-    const profilRef = ref(db, 'siswa/' + absen);
+    const profilRef = ref(db, 'siswa/' + nama.replace(/\s+/g, '_')); // Key berdasarkan nama
 
     // Load profil dari Firebase
     get(profilRef).then((snapshot) => {
@@ -182,6 +187,7 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
       if(role === "admin") return alert("Admin tidak bisa edit profil!");
       document.getElementById("editNama").value = profilData.nama;
       document.getElementById("editAbsen").value = profilData.absen;
+      document.getElementById("editAbsenLogin").value = absen; // Absen login dari localStorage
       modalProfil.style.display = "flex";
     });
 
@@ -190,42 +196,35 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
     window.simpanProfil = async () => {
       const newNama = document.getElementById("editNama").value.trim();
       const newAbsen = document.getElementById("editAbsen").value;
+      const newAbsenLogin = document.getElementById("editAbsenLogin").value;
       const fotoFile = document.getElementById("editFoto").files[0];
 
-      if(!newNama || !newAbsen) return alert("Isi nama dan absen!");
-
-      // Cek apakah absen baru sudah digunakan
-      if(newAbsen !== profilData.absen) {
-        const checkRef = ref(db, 'siswa/' + newAbsen);
-        const snapshot = await get(checkRef);
-        if(snapshot.exists()) return alert("Absen sudah digunakan oleh siswa lain!");
-      }
+      if(!newNama || !newAbsen || !newAbsenLogin) return alert("Isi semua field!");
 
       let fotoURL = profilData.fotoURL;
       if(fotoFile) {
         const reader = new FileReader();
         reader.onload = function(e) {
           fotoURL = e.target.result;
-          updateProfil(newNama, newAbsen, fotoURL);
+          updateProfil(newNama, newAbsen, newAbsenLogin, fotoURL);
         };
         reader.readAsDataURL(fotoFile);
         return; // Tunggu reader selesai
       }
 
-      updateProfil(newNama, newAbsen, fotoURL);
+      updateProfil(newNama, newAbsen, newAbsenLogin, fotoURL);
     };
 
-    function updateProfil(newNama, newAbsen, fotoURL) {
-      // Hapus data lama jika absen berubah
-      if(newAbsen !== profilData.absen) {
-        remove(ref(db, 'siswa/' + profilData.absen));
-        remove(ref(db, 'tugasSelesai/' + profilData.absen));
-        localStorage.setItem("absen", newAbsen);
-      }
-
+    function updateProfil(newNama, newAbsen, newAbsenLogin, fotoURL) {
+      // Update profil Firebase (absen tetap untuk tampilan)
       profilData = { nama: newNama, absen: newAbsen, fotoURL: fotoURL };
       set(profilRef, profilData);
       updateProfilUI();
+
+      // Update absen login di localStorage
+      localStorage.setItem("absen", newAbsenLogin);
+      localStorage.setItem("nama", newNama); // Update nama juga jika berubah
+
       closeModal();
       alert("Profil berhasil disimpan!");
     };
@@ -245,7 +244,7 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
     /* SISWA DATA (untuk login, tapi tidak ditampilkan) */
     let siswaData = JSON.parse(localStorage.getItem("siswaData")) || [];
 
-    /* JADWAL MENARIK */
+   /* JADWAL MENARIK */
     const jadwalData = [
      { hari: "Senin", mataPelajaran: "PKWU", waktu: "08:15 - 09:45" },
       { hari: "Senin", mataPelajaran: "Kimia", waktu: "10:15 - 11:40" },
@@ -414,6 +413,23 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
       namaBaru.value="";absenBaru.value="";
       localStorage.setItem("siswaData",JSON.stringify(siswaData));
       alert("Siswa berhasil ditambahkan!");
+    });
+
+    /* UBAH ABSEN SISWA (ADMIN) */
+    const absenLama = document.getElementById("absenLama");
+    const absenBaruAdmin = document.getElementById("absenBaruAdmin");
+    const btnUbahAbsen = document.getElementById("btnUbahAbsen");
+    btnUbahAbsen.addEventListener("click", function() {
+      const lama = absenLama.value;
+      const baru = absenBaruAdmin.value;
+      if(!lama || !baru) return alert("Isi absen lama dan baru!");
+      // Cari siswa berdasarkan absen lama
+      const siswaIndex = siswaData.findIndex(s => s.absen == lama);
+      if(siswaIndex === -1) return alert("Siswa dengan absen lama tidak ditemukan!");
+      siswaData[siswaIndex].absen = baru;
+      localStorage.setItem("siswaData", JSON.stringify(siswaData));
+      alert("Absen siswa berhasil diubah!");
+      absenLama.value="";absenBaruAdmin.value="";
     });
 
     /* LOGOUT */
