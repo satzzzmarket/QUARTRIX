@@ -405,6 +405,14 @@
       hamburger.classList.toggle('active');
       navMenu.classList.toggle('active');
     });
+     // SMART LOGIN BUTTON
+  const loginBtn = document.getElementById("loginBtn");
+  const role = localStorage.getItem("role");
+
+  if (role) {
+    loginBtn.textContent = "Dashboard";
+    loginBtn.href = "dashboard.html";
+  }
   </script>
 </body>
 </html>
