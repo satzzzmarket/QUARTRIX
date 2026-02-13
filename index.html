@@ -58,17 +58,22 @@
       color: #fff5e6;
       flex-grow: 1;
     }
-    .login-btn {
-  background: #2a5298;
-  color: white;
+    /* LOGIN BUTTON */
+.login-btn {
   padding: 10px 18px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
+  background: linear-gradient(135deg, #ff8c42, #ff6b1a);
+  color: #fff5e6;
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(255,140,66,0.5);
+  transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .login-btn:hover {
-  opacity: 0.9;
+  background: #fff5e6;
+  color: #3e2c23;
+  transform: scale(1.05);
 }
 
     nav {
@@ -352,6 +357,7 @@
       <img src="https://i.ibb.co.com/7xxVWwH7/IMG-8428.png" alt="Logo QUARTRIX" />
     </div>
     <h1><a href="index.html">QUARTRIX</a></h1>
+    <a id="loginBtn" href="login.html" class="login-btn">Login</a>
     <div class="hamburger" id="hamburger">
       <span></span>
       <span></span>
@@ -365,7 +371,6 @@
     <a href="foto.html">Foto</a>
     <a href="siswa.html">Siswa</a>
     <a href="struktur.html">Struktur</a>
-    <a href="login.html">Login</a>
     <div class="social-menu">
   <a href="https://www.instagram.com/quartriix/" target="_blank" aria-label="Instagram">
     <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram">
@@ -432,6 +437,15 @@
       hamburger.classList.toggle('active');
       navMenu.classList.toggle('active');
     });
+
+    // SMART LOGIN BUTTON
+  const loginBtn = document.getElementById("loginBtn");
+  const role = localStorage.getItem("role");
+
+  if (role) {
+    loginBtn.textContent = "Dashboard";
+    loginBtn.href = "dashboard.html";
+  }
   </script>
 </body>
 </html>
