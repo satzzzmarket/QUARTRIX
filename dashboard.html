@@ -1,139 +1,15 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
   <title>Dashboard - QUARTRIX</title>
-  <link rel="icon" href="https://i.ibb.co.com/7xxVWwH7/IMG-8428.png" />
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    body {
-      background: #5a3e2b;
-      color: #fff5e6;
-      min-height: 100vh;
-    }
-
-    header {
-      background: #ff8c42;
-      padding: 1.5rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,.3);
-    }
-
-    header h1 a {
-      color: #fff5e6;
-      text-decoration: none;
-      letter-spacing: 2px;
-    }
-
-    .logout {
-      background: #3e2c23;
-      color: #fff5e6;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .logout:hover {
-      opacity: .85;
-    }
-
-    main {
-      padding: 2.5rem 2rem;
-      max-width: 900px;
-      margin: auto;
-    }
-
-    .card {
-      background: #fff5e6;
-      color: #3e2c23;
-      border-radius: 14px;
-      padding: 2rem;
-      box-shadow: 0 8px 25px rgba(0,0,0,.3);
-      margin-bottom: 2rem;
-    }
-
-    .card h2 {
-      margin-bottom: 1rem;
-      color: #5a3e2b;
-    }
-
-    #info {
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
-
-    /* ADMIN PANEL */
-    #adminPanel {
-      display: none;
-      margin-top: 1.5rem;
-    }
-
-    #adminPanel input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    #adminPanel button {
-      background: #ff8c42;
-      color: #fff5e6;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      margin-top: 8px;
-    }
-
-    #adminPanel button:hover {
-      opacity: .9;
-    }
-
-    /* LIST SISWA */
-    ul {
-      list-style: none;
-      margin-top: 1rem;
-    }
-
-    li {
-      padding: 10px 14px;
-      border-bottom: 1px solid rgba(0,0,0,.1);
-      font-weight: 600;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1.5rem;
-      background: #3e2c23;
-      color: #fff5e6;
-      margin-top: 3rem;
-    }
-
-    @media (max-width: 600px) {
-      main {
-        padding: 1.5rem;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
-  <h1><a href="index.html">QUARTRIX</a></h1>
-  <button class="logout" onclick="logout()">Logout</button>
+  <h1>QUARTRIX</h1>
+  <button onclick="logout()">Logout</button>
 </header>
 
 <main>
@@ -141,45 +17,34 @@
     <p id="info"></p>
   </div>
 
-  <div class="card" id="adminPanel">
-    <h2>Tambah Siswa (Admin)</h2>
+  <div class="card" id="adminPanel" style="display:none;">
+    <h3>Tambah Siswa (Admin)</h3>
     <input type="text" id="namaBaru" placeholder="Nama Lengkap">
     <input type="number" id="absenBaru" placeholder="Nomor Absen">
-    <button onclick="tambahSiswa()">Tambah Siswa</button>
+    <button onclick="tambahSiswa()">Tambah</button>
   </div>
 
   <div class="card">
-    <h2>Daftar Siswa</h2>
+    <h3>Daftar Siswa</h3>
     <ul id="siswaList"></ul>
   </div>
 </main>
 
-<footer>
-  &copy; 2025 QUARTRIX
-</footer>
-
 <script>
-/* ===============================
-   CEK LOGIN
-================================ */
+/* CEK LOGIN */
 const role = localStorage.getItem("role");
 const namaLogin = localStorage.getItem("nama");
 const absenLogin = localStorage.getItem("absen");
 
-if (!role || !namaLogin || !absenLogin) {
+if (!role) {
   window.location.href = "login.html";
 }
 
-/* ===============================
-   ELEMENT
-================================ */
-const info = document.getElementById("info");
-const adminPanel = document.getElementById("adminPanel");
-const siswaList = document.getElementById("siswaList");
+/* DATA */
+let akunData = JSON.parse(localStorage.getItem("akunData")) || [
+  { nama: "ADMIN", absen: "admin123", role: "admin" }
+];
 
-/* ===============================
-   DATA SISWA
-================================ */
 let siswaData = JSON.parse(localStorage.getItem("siswaData")) || [
   { nama: "AGUSTINE DYAH AYU RAHMADANI", absen: 1 },
   { nama: "AHMAD FAISHAL ZAUMAR", absen: 2 },
@@ -217,66 +82,48 @@ let siswaData = JSON.parse(localStorage.getItem("siswaData")) || [
   { nama: "SELLA RAHMA YUNANDA", absen: 34 }
 ];
 
-/* ===============================
-   INFO USER
-================================ */
+/* INFO */
+const info = document.getElementById("info");
+const adminPanel = document.getElementById("adminPanel");
+const siswaList = document.getElementById("siswaList");
+
 if (role === "admin") {
-  info.innerText = "Anda login sebagai ADMIN";
+  info.innerText = "Login sebagai ADMIN";
   adminPanel.style.display = "block";
 } else {
-  info.innerText =
-    "Selamat datang, " + namaLogin + " (Absen " + absenLogin + ")";
+  info.innerText = "Selamat datang, " + namaLogin + " (Absen " + absenLogin + ")";
 }
 
-/* ===============================
-   RENDER SISWA
-================================ */
+/* RENDER */
 function renderSiswa() {
   siswaList.innerHTML = "";
-  siswaData.sort((a, b) => a.absen - b.absen);
-
+  siswaData.sort((a,b)=>a.absen-b.absen);
   siswaData.forEach(s => {
     const li = document.createElement("li");
-    li.innerText = "Absen " + s.absen + " — " + s.nama;
+    li.innerText = "Absen " + s.absen + " - " + s.nama;
     siswaList.appendChild(li);
   });
-
   localStorage.setItem("siswaData", JSON.stringify(siswaData));
+  localStorage.setItem("akunData", JSON.stringify(akunData));
 }
-
 renderSiswa();
 
-/* ===============================
-   TAMBAH SISWA (ADMIN)
-================================ */
+/* TAMBAH */
 function tambahSiswa() {
-  const nama = document.getElementById("namaBaru").value.trim();
+  const nama = document.getElementById("namaBaru").value.trim().toUpperCase();
   const absen = document.getElementById("absenBaru").value.trim();
 
-  if (!nama || !absen) {
-    alert("Nama dan absen wajib diisi");
-    return;
-  }
+  if (!nama || !absen) return alert("Lengkapi data");
+  if (siswaData.some(s => s.absen == absen)) return alert("Absen sudah ada");
 
-  if (siswaData.some(s => s.absen == absen)) {
-    alert("Absen sudah ada");
-    return;
-  }
-
-  siswaData.push({
-    nama: nama.toUpperCase(),
-    absen: Number(absen)
-  });
-
-  document.getElementById("namaBaru").value = "";
-  document.getElementById("absenBaru").value = "";
+  siswaData.push({ nama, absen:Number(absen) });
+  akunData.push({ nama, absen, role:"siswa" });
 
   renderSiswa();
+  alert("Siswa berhasil ditambahkan");
 }
 
-/* ===============================
-   LOGOUT
-================================ */
+/* LOGOUT */
 function logout() {
   localStorage.clear();
   window.location.href = "login.html";
@@ -285,4 +132,3 @@ function logout() {
 
 </body>
 </html>
-
