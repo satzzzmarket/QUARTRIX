@@ -164,6 +164,7 @@ function login() {
 
   /* ADMIN */
   if (username === "admin" && password === "admin123") {
+    localStorage.setItem("isLogin", "true");
     localStorage.setItem("role", "admin");
     localStorage.setItem("nama", "ADMIN");
     localStorage.setItem("absen", "-");
@@ -177,6 +178,7 @@ function login() {
   );
 
   if (siswa) {
+    localStorage.setItem("isLogin", "true");
     localStorage.setItem("role", "siswa");
     localStorage.setItem("nama", siswa.nama);
     localStorage.setItem("absen", siswa.absen);
@@ -189,5 +191,6 @@ function login() {
 
 </body>
 </html>
+
 
 
