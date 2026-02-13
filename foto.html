@@ -442,14 +442,6 @@
       navMenu.classList.toggle('active');
     });
 
-    // Check login status saat halaman dimuat
-    window.addEventListener('DOMContentLoaded', function() {
-      const isLogin = localStorage.getItem('isLogin');
-      if (!isLogin || isLogin !== 'true') {
-        // Jika belum login, redirect ke login.html
-        window.location.href = 'login.html';
-      }
-    });
   </script>
 
 </body>
