@@ -63,7 +63,7 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
   <div id="tambahTugasPanel" style="display:none;margin-top:1rem">
     <input id="tugasBaru" placeholder="Deskripsi tugas">
     <input id="deadlineBaru" type="date">
-    <button onclick="tambahTugas()">Tambah Tugas</button>
+    <button id="btnTambahTugas" onclick="tambahTugas()">Tambah Tugas</button>
   </div>
 </div>
 
@@ -119,9 +119,9 @@ info.innerText = role==="admin"
 if(role==="admin"){
   adminPanel.style.display="block";
   tambahTugasPanel.style.display="block";
-  console.log("Panel admin dan tugas ditampilkan"); // Debug
+  console.log("Panel admin dan tugas ditampilkan untuk role:", role);
 } else {
-  console.log("Role bukan admin:", role); // Debug
+  console.log("Role bukan admin, panel tidak ditampilkan. Role saat ini:", role);
 }
 
 /* SISWA DATA (untuk login, tapi tidak ditampilkan) */
@@ -200,13 +200,20 @@ onValue(tugasRef, (snapshot) => {
   const data = snapshot.val();
   tugasData = data ? Object.values(data) : [];
   renderTugas();
-  console.log("Tugas diperbarui:", tugasData); // Debug
+  console.log("Tugas diperbarui:", tugasData);
+});
+
+// Tambahkan event listener untuk tombol
+document.getElementById("btnTambahTugas").addEventListener("click", function() {
+  console.log("Tombol tambah tugas diklik via event listener");
+  tambahTugas();
 });
 
 function tambahTugas(){
-  console.log("Tombol tambah tugas diklik"); // Debug
+  console.log("Fungsi tambahTugas dipanggil");
   if(role !== "admin") {
-    console.log("Role bukan admin:", role); // Debug
+    console.log("Role bukan admin:", role);
+    alert("Hanya admin yang bisa menambah tugas!");
     return;
   }
   const desc = tugasBaru.value.trim();
