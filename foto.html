@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Foto Kebersamaan - QUARTRIX</title>
   <link rel="icon" href="https://i.ibb.co.com/7xxVWwH7/IMG-8428.png" type="image/jpeg" />
+  <script>
+  if (localStorage.getItem("isLogin") !== "true") {
+    location.replace("login.html");
+  }
+</script>
+
   <style>
     /* Reset dan font */
     * {
@@ -466,9 +472,7 @@
     loginBtn.textContent = nama;
     loginBtn.href = "#";
   }
-     if (localStorage.getItem("isLogin") !== "true") {
-    window.location.href = "login.html";
-  }
+    
   </script>
 </body>
 </html>
