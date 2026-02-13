@@ -500,6 +500,18 @@
       hamburger.classList.toggle('active');
       navMenu.classList.toggle('active');
     });
+   const grid = document.querySelector(".siswa-grid");
+let tambahan = JSON.parse(localStorage.getItem("siswa")) || [];
+
+tambahan.forEach(s => {
+  const card = document.createElement("div");
+  card.className = "siswa-card";
+  card.innerHTML = `
+    <img src="${s.foto}">
+    <p>${s.nama}</p>
+  `;
+  grid.appendChild(card);
+});
   </script>
 </body>
 </html>
