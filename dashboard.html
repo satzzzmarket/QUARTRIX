@@ -1,28 +1,73 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Dashboard | QUARTRIX</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard - QUARTRIX</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<nav class="navbar">
-  <span id="userInfo"></span>
+<div class="navbar">
+  <span id="roleText"></span>
   <button onclick="logout()">Logout</button>
-</nav>
+</div>
 
 <div class="dashboard">
-  <h1>Selamat Datang 👋</h1>
-  <p id="welcomeText"></p>
+  <h1>Dashboard QUARTRIX</h1>
+  <p id="info"></p>
 
   <div class="menu">
-    <a href="#">📅 Jadwal</a>
-    <a href="#">📘 Materi</a>
-    <a href="#">🖼 Galeri</a>
+    <a href="siswa.html">📘 Daftar Siswa</a>
+    <a href="jadwal.html">📅 Jadwal</a>
+    <a href="foto.html">📸 Foto</a>
+  </div>
+
+  <!-- ADMIN ONLY -->
+  <div id="adminPanel" class="hidden">
+    <h2 style="margin-top:30px;color:#3e2c23;">Tambah Siswa</h2>
+
+    <input id="nama" placeholder="Nama siswa">
+    <input id="foto" placeholder="Link foto">
+    <button onclick="tambahSiswa()">Tambah</button>
   </div>
 </div>
 
-<script src="dashboard.js"></script>
+<script>
+const role = localStorage.getItem("role");
+
+if (!role) {
+  window.location.href = "login.html";
+}
+
+roleText.innerText = "Role: " + role.toUpperCase();
+
+if (role === "admin") {
+  adminPanel.classList.remove("hidden");
+  info.innerText = "Anda login sebagai ADMIN";
+} else {
+  info.innerText = "Anda login sebagai SISWA (read-only)";
+}
+
+function logout(){
+  localStorage.clear();
+  window.location.href = "login.html";
+}
+
+function tambahSiswa(){
+  let data = JSON.parse(localStorage.getItem("siswa")) || [];
+
+  data.push({
+    nama: nama.value,
+    foto: foto.value
+  });
+
+  localStorage.setItem("siswa", JSON.stringify(data));
+  alert("Siswa berhasil ditambahkan ✅");
+  nama.value = "";
+  foto.value = "";
+}
+</script>
+
 </body>
 </html>
