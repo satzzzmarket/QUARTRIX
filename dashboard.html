@@ -395,15 +395,15 @@ const siswaData = [
   { nama: "SELLA RAHMA YUNANDA", absen: 34 }
 ];
 
-// Ganti bagian btnImportSiswa.addEventListener dengan kode lengkap ini
+// Ganti seluruh bagian btnImportSiswa.addEventListener dengan kode ini
 const btnImportSiswa = document.getElementById("btnImportSiswa");
-btnImportSiswa.addEventListener("click", async () => {  // Pastikan 'async' ada di sini
+btnImportSiswa.addEventListener("click", async () => {  // Pastikan 'async' di sini
   if (role !== "admin") return alert("Hanya admin yang bisa import siswa!");
   if (confirm("Apakah Anda yakin ingin import semua 34 siswa? Ini akan menimpa data yang ada.")) {
     for (const siswa of siswaData) {
       // Cek apakah absen sudah ada
       const existingRef = ref(db, "siswa/" + siswa.absen);
-      const snapshot = await get(existingRef);  // Baris ini harus di dalam fungsi async
+      const snapshot = await get(existingRef);  // 'await' sekarang di dalam fungsi async
       if (snapshot.exists()) {
         console.log(`Absen ${siswa.absen} sudah ada, skip import untuk ${siswa.nama}`);
         continue; // Skip jika sudah ada
@@ -591,7 +591,7 @@ function hapusTugas(key) {
 const namaBaru = document.getElementById("namaBaru");
 const absenBaru = document.getElementById("absenBaru");
 const btnTambahSiswa = document.getElementById("btnTambahSiswa");
-btnTambahSiswa.addEventListener("click", () => {
+btnTambahSiswa.addEventListener("click", async () => {
   const nama = namaBaru.value.trim().toUpperCase();
   const absen = absenBaru.value.trim();
 
@@ -663,6 +663,7 @@ logoutBtn.addEventListener("click", function() {
 
 </body>
 </html>
+
 
 
 
