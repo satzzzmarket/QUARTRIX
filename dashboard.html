@@ -111,6 +111,8 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
   <input id="namaBaru" placeholder="Nama Lengkap">
   <input id="absenBaru" type="number" placeholder="Nomor Absen">
   <button id="btnTambahSiswa" class="btn-menarik">➕ Tambah Siswa</button>
+  <h2>Import Semua Siswa (34)</h2>
+  <button id="btnImportSiswa" class="btn-menarik">📥 Import Siswa</button>
   <h2>Ubah Absen Siswa</h2>
   <input id="absenLama" type="number" placeholder="Absen Lama">
   <input id="absenBaruAdmin" type="number" placeholder="Absen Baru">
@@ -209,7 +211,7 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
     let profilData = { nama: nama, absen: absen, fotoURL: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9IiNmZmY1ZTYiLz4KPHBhdGggZD0iTTI1IDI1QzI3LjIgMjUgMjkgMjIuMiAyOSAyMEMyOSAxNy44IDI3LjIgMTYgMjUgMTZDMTYuOCAxNiAxNSAxNy44IDE1IDIwQzE1IDIyLjIgMTYuOCAyNSAyNSAyNVoiIGZpbGw9IiMzZTJjMjMiLz4KPHBhdGggZD0iTTMwIDI1QzMwIDI4LjMgMjcuMyAzMSAyNSAzMUMyMi43IDMxIDIwIDI4LjMgMjAgMjVDMjAgMjEuNyAyMi43IDE5IDI1IDE5QzI3LjMgMTkgMzAgMjEuNyAzMCAyNVoiIGZpbGw9IiMzZTJjMjMiLz4KPC9zdmc+" };
     const profilRef = ref(db, "siswa/" + absen); 
 
-        // Update UI awal dengan data localStorage
+    // Update UI awal dengan data localStorage
     updateProfilUI();
 
     // Load profil dari Firebase
@@ -242,321 +244,375 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
 
     window.closeModal = () => modalProfil.style.display = "none";
 
-    const hapusFotoBtn = document.getElementById("hapusFotoBtn");
-    hapusFotoBtn.addEventListener("click", () => {
-      if (role === "admin") return alert("Admin tidak bisa hapus foto!");
-      const avatarDefaultURL = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9IiNmZmY1ZTYiLz4KPHBhdGggZD0iTTI1IDI1QzI3LjIgMjUgMjkgMjIuMiAyOSAyMEMyOSAxNy44IDI3LjIgMTYgMjUgMTZDMTYuOCAxNiAxNSAxNy44IDE1IDIwQzE1IDIyLjIgMTYuOCAyNSAyNSAyNVoiIGZpbGw9IiMzZTJjMjMiLz4KPHBhdGggZD0iTTMwIDI1QzMwIDI4LjMgMjcuMyAzMSAyNSAzMUMyMi43IDMxIDIwIDI4LjMgMjAgMjVDMjAgMjEuNyAyMi43IDE5IDI1IDE5QzI3LjMgMTkgMzAgMjEuNyAzMCAyNVoiIGZpbGw9IiMzZTJjMjMiLz4KPC9zdmc+";
-      profilData.fotoURL = avatarDefaultURL;
-      document.getElementById("profilFoto").src = avatarDefaultURL;
-      alert("Foto profil berhasil dihapus dan dikembalikan ke default!");
-    });
+const hapusFotoBtn = document.getElementById("hapusFotoBtn");
+hapusFotoBtn.addEventListener("click", () => {
+  if (role === "admin") return alert("Admin tidak bisa hapus foto!");
+  const avatarDefaultURL = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9IiNmZmY1ZTYiLz4KPHBhdGggZD0iTTI1IDI1QzI3LjIgMjUgMjkgMjIuMiAyOSAyMEMyOSAxNy44IDI3LjIgMTYgMjUgMTZDMTYuOCAxNiAxNSAxNy44IDE1IDIwQzE1IDIyLjIgMTYuOCAyNSAyNSAyNVoiIGZpbGw9IiMzZTJjMjMiLz4KPHBhdGggZD0iTTMwIDI1QzMwIDI4LjMgMjcuMyAzMSAyNSAzMUMyMi43IDMxIDIwIDI4LjMgMjAgMjVDMjAgMjEuNyAyMi43IDE5IDI1IDE5QzI3LjMgMTkgMzAgMjEuNyAzMCAyNVoiIGZpbGw9IiMzZTJjMjMiLz4KPC9zdmc+";
+  profilData.fotoURL = avatarDefaultURL;
+  document.getElementById("profilFoto").src = avatarDefaultURL;
+  alert("Foto profil berhasil dihapus dan dikembalikan ke default!");
+});
 
-    window.simpanProfil = async () => {
-      const newNama = document.getElementById("editNama").value.trim();
-      const newAbsen = document.getElementById("editAbsen").value;
-      const newAbsenLogin = document.getElementById("editAbsenLogin").value;
-      const fotoFile = document.getElementById("editFoto").files[0];
+window.simpanProfil = async () => {
+  const newNama = document.getElementById("editNama").value.trim();
+  const newAbsen = document.getElementById("editAbsen").value;
+  const newAbsenLogin = document.getElementById("editAbsenLogin").value;
+  const fotoFile = document.getElementById("editFoto").files[0];
 
-      if(!newNama || !newAbsen || !newAbsenLogin) return alert("Isi semua field!");
+  if(!newNama || !newAbsen || !newAbsenLogin) return alert("Isi semua field!");
 
-      let fotoURL = profilData.fotoURL;
-      if(fotoFile) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          fotoURL = e.target.result;
-          updateProfil(newNama, newAbsen, newAbsenLogin, fotoURL);
-        };
-        reader.readAsDataURL(fotoFile);
-        return; // Tunggu reader
-      }
-
+  let fotoURL = profilData.fotoURL;
+  if(fotoFile) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      fotoURL = e.target.result;
       updateProfil(newNama, newAbsen, newAbsenLogin, fotoURL);
     };
+    reader.readAsDataURL(fotoFile);
+    return; // Tunggu reader
+  }
 
-    function updateProfil(newNama, newAbsen, newAbsenLogin, fotoURL) {
-      const oldAbsen = absen;
-      set(ref(db, "siswa/" + newAbsenLogin), {
-        nama: newNama,
-        absen: newAbsen,
-        role: role,
-        fotoURL: fotoURL
-      });
+  updateProfil(newNama, newAbsen, newAbsenLogin, fotoURL);
+};
 
-      localStorage.setItem("absen", newAbsenLogin);
-      localStorage.setItem("nama", newNama);
+function updateProfil(newNama, newAbsen, newAbsenLogin, fotoURL) {
+  const oldAbsen = absen; // Simpan absen lama
 
-      closeModal();
-      alert("Profil berhasil disimpan!");
+  set(ref(db, "siswa/" + newAbsenLogin), {
+    nama: newNama,
+    absen: newAbsen,
+    role: role,
+    fotoURL: fotoURL
+  });
 
-      // Jika absen login berubah, logout otomatis dan redirect
-      if (newAbsenLogin !== absen) {
-        remove(ref(db, "siswa/" + oldAbsen));
-        alert("Absen login telah diubah. Anda akan diarahkan ke halaman login untuk masuk dengan absen baru.");
-        localStorage.clear();
-        location.href = "login.html";
-      }
-    }
+  localStorage.setItem("absen", newAbsenLogin);
+  localStorage.setItem("nama", newNama);
 
-    /* ADMIN */
-    const adminPanel = document.getElementById("adminPanel");
-    const tambahTugasPanel = document.getElementById("tambahTugasPanel");
-    if(role==="admin"){
-      adminPanel.style.display="block";
-      tambahTugasPanel.style.display="block";
-      editProfilBtn.style.display = "none"; // Admin tidak edit profil
-      hapusFotoBtn.style.display = "none"; // Admin tidak hapus foto
-      renderDaftarSiswa(); // Render daftar siswa sedang login untuk admin
-      console.log("Panel admin dan tugas ditampilkan untuk role:", role);
-    } else {
-      console.log("Role bukan admin, panel tidak ditampilkan. Role saat ini:", role);
-    }
+  closeModal();
+  alert("Profil berhasil disimpan!");
 
-    // Set user online saat login
-    const onlineRef = ref(db, "online/" + absen);
-    set(onlineRef, { nama: nama, role: role });
-    onDisconnect(onlineRef).remove(); // Hapus saat disconnect
+  // Jika absen login berubah, hapus data lama dan logout otomatis
+  if (newAbsenLogin !== oldAbsen) {
+    remove(ref(db, "siswa/" + oldAbsen)); // Hapus data lama
+    alert("Absen login telah diubah. Anda akan diarahkan ke halaman login untuk masuk dengan absen baru.");
+    localStorage.clear();
+    location.href = "login.html";
+  }
+}
 
-    function renderDaftarSiswa() {
-      const daftarSiswaDiv = document.getElementById("daftarSiswa");
+/* ADMIN */
+const adminPanel = document.getElementById("adminPanel");
+const tambahTugasPanel = document.getElementById("tambahTugasPanel");
+if(role==="admin"){
+  adminPanel.style.display="block";
+  tambahTugasPanel.style.display="block";
+  editProfilBtn.style.display = "none"; // Admin tidak edit profil
+  hapusFotoBtn.style.display = "none"; // Admin tidak hapus foto
+  renderDaftarSiswa(); // Render daftar siswa sedang login untuk admin
+  console.log("Panel admin dan tugas ditampilkan untuk role:", role);
+} else {
+  console.log("Role bukan admin, panel tidak ditampilkan. Role saat ini:", role);
+}
 
-      onValue(ref(db, "online"), (snapshot) => {
-        daftarSiswaDiv.innerHTML = "<ul>";
+// Set user online saat login
+const onlineRef = ref(db, "online/" + absen);
+set(onlineRef, { nama: nama, role: role });
+onDisconnect(onlineRef).remove(); // Hapus saat disconnect
 
-        snapshot.forEach(child => {
-          const absenKey = child.key;
-          const data = child.val();
+function renderDaftarSiswa() {
+  const daftarSiswaDiv = document.getElementById("daftarSiswa");
 
-          daftarSiswaDiv.innerHTML += `
-            <li>
-              <span>${data.nama} (${data.role})</span>
-              <span>Absen: ${absenKey} - Online</span>
-            </li>
-          `;
-        });
+  onValue(ref(db, "online"), (snapshot) => {
+    daftarSiswaDiv.innerHTML = "<ul>";
 
-        daftarSiswaDiv.innerHTML += "</ul>";
-      });
-    }
+    snapshot.forEach(child => {
+      const absenKey = child.key;
+      const data = child.val();
 
-    /* JADWAL MENARIK */
-    const jadwalData = [
-     { hari: "Senin", mataPelajaran: "PKWU", waktu: "08:15 - 09:45" },
-      { hari: "Senin", mataPelajaran: "Kimia", waktu: "10:15 - 11:40" },
-      { hari: "Senin", mataPelajaran: "Matematika Minat", waktu: "12:30 - 13:50" },
-      { hari: "Senin", mataPelajaran: "Sejarah", waktu: "13:50 - 15:00" },
-      { hari: "Selasa", mataPelajaran: "Bimbingan Konseling", waktu: "07:00 - 07:40" },
-      { hari: "Selasa", mataPelajaran: "Matematika Wajib", waktu: "07:40 - 09:00" },
-      { hari: "Selasa", mataPelajaran: "Penjaskes", waktu: "09:00 - 11:30" },
-      { hari: "Selasa", mataPelajaran: "Fisika", waktu: "12:20 - 13:40" },
-      { hari: "Selasa", mataPelajaran: "Bahasa Inggris", waktu: "13:40 - 15:00" },
-      { hari: "Rabu", mataPelajaran: "Bahasa Indonesia", waktu: "07:00 - 08:20" },
-      { hari: "Rabu", mataPelajaran: "Matematika Minat", waktu: "08:20 - 09:40" },
-      { hari: "Rabu", mataPelajaran: "Seni Budaya", waktu: "10:10 - 11:30" },
-      { hari: "Rabu", mataPelajaran: "Biologi", waktu: "12:20 - 13:40" },
-      { hari: "Rabu", mataPelajaran: "Fisika", waktu: "13:40 - 15:00" },
-      { hari: "Kamis", mataPelajaran: "Bahasa Jawa", waktu: "07:00 - 07:40" },
-      { hari: "Kamis", mataPelajaran: "Kimia", waktu: "07:40 - 09:40" },
-      { hari: "Kamis", mataPelajaran: "Biologi", waktu: "10:10 - 10:50" },
-      { hari: "Kamis", mataPelajaran: "Agama", waktu: "12:20 - 13:40" },
-      { hari: "Kamis", mataPelajaran: "Bahasa Indonesia", waktu: "13:40 - 15:00" },
-      { hari: "Jumat", mataPelajaran: "Matematika Wajib", waktu: "07:00 - 08:30" },
-      { hari: "Jumat", mataPelajaran: "BMQ", waktu: "08:30 - 09:15" },
-      { hari: "Jumat", mataPelajaran: "PPKn", waktu: "09:45 - 11:15" }
-    ];
-
-    const hariList = [...new Set(jadwalData.map(j => j.hari))]; 
-    // Ambil daftar hari unik: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"]
-
-    const jadwalButtons = document.getElementById("jadwalButtons");
-    const jadwalDetail = document.getElementById("jadwalDetail");
-
-    hariList.forEach(h => {
-      const b = document.createElement("button");
-      b.textContent = h;
-      b.className = "hari-btn";
-      b.onclick = () => tampilJadwal(h, b);
-      jadwalButtons.appendChild(b);
+      daftarSiswaDiv.innerHTML += `
+        <li>
+          <span>${data.nama} (${data.role})</span>
+          <span>Absen: ${absenKey} - Online</span>
+        </li>
+      `;
     });
 
-    function tampilJadwal(hari, btn) {
-      document.querySelectorAll(".hari-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      jadwalDetail.innerHTML = "";
-      jadwalData
-        .filter(j => j.hari === hari)
-        .forEach(j => {
-          const card = document.createElement("div");
-          card.className = "jadwal-card";
-          card.innerHTML = `
-            <div class="jadwal-mapel">${j.mataPelajaran}</div>
-            <div class="jadwal-waktu">${j.waktu}</div>
-          `;
-          jadwalDetail.appendChild(card);
-        });
-    }
+    daftarSiswaDiv.innerHTML += "</ul>";
+  });
+}
 
-    // auto buka hari pertama
-    tampilJadwal(hariList[0], jadwalButtons.children[0]);
+/* IMPORT SISWA */
+const siswaData = [
+  { nama: "AGUSTINE DYAH AYU RAHMADANI", absen: 1 },
+  { nama: "AHMAD FAISHAL ZAUMAR", absen: 2 },
+  { nama: "ALANA GEIZEL FAEDAH ALAM", absen: 3 },
+  { nama: "ALYA NAFEEZA AZZAHRO", absen: 4 },
+  { nama: "ANNISA PRIMADITA MUSAFA", absen: 5 },
+  { nama: "ARYA ISSYA MAHENDRA", absen: 6 },
+  { nama: "BERLIANA FAIRUZ IZDIHAR", absen: 7 },
+  { nama: "CLEON ADLI DANENDRA OMAN", absen: 8 },
+  { nama: "EIVEL FLORAYSA NADINDA ARDYALOVA", absen: 9 },
+  { nama: "EVELYN GABRIEL ECHA CARERA", absen: 10 },
+  { nama: "EZHAR AIRLANGGA RISTANSYAH", absen: 11 },
+  { nama: "FALIA PUTRI ELLYZA", absen: 12 },
+  { nama: "HANINDIA ASYAWA KAYNAHAYA", absen: 13 },
+  { nama: "HANUNG ELYA PINANDITA", absen: 14 },
+  { nama: "HELMY ARSYAD DARMAWAN", absen: 15 },
+  { nama: "HENDARSO WIRATMOKO", absen: 16 },
+  { nama: "JAGAD CAHYO ADY", absen: 17 },
+  { nama: "JESSICA AFA MARTANIA", absen: 18 },
+  { nama: "KAYLA AMANDA SYAMSAFINA", absen: 19 },
+  { nama: "KEVIN APRILIO", absen: 20 },
+  { nama: "LINTANG YULIDHA PUTRI", absen: 21 },
+  { nama: "MUHAMMAD IBNU KHALDUN ALFAUZI", absen: 22 },
+  { nama: "NABIL MAHIDARA ARTANTO", absen: 23 },
+  { nama: "NABILA KIRANA CANTYA PUTRI", absen: 24 },
+  { nama: "NADIA REYSSA IRVANA PUTRI", absen: 25 },
+  { nama: "NATHANAEL ABIRA SETYO BUDI", absen: 26 },
+  { nama: "NATHANIA NARESWARI BRAHMA PUTRI", absen: 27 },
+  { nama: "NIDA ULHAQ NUR SYIFA", absen: 28 },
+  { nama: "NISRINA MARYAM", absen: 29 },
+  { nama: "PHILLIPUS ADE MAHENDRA PUTRA", absen: 30 },
+  { nama: "PRISYA NOVI ANGGRAENI", absen: 31 },
+  { nama: "RENITA ISNABILA", absen: 32 },
+  { nama: "SEDYO SAKA PRATAMA", absen: 33 },
+  { nama: "SELLA RAHMA YUNANDA", absen: 34 }
+];
 
-    /* TUGAS MENARIK DENGAN CHECKLIST */
-    let tugasData = [];
-    let tugasKeys = []; // Simpan key untuk hapus
-    let tugasSelesai = {}; // Status selesai per tugas per siswa
-    const tugasList = document.getElementById("tugasList");
-
-    function renderTugas(){
-      tugasList.innerHTML="";
-      tugasData.forEach((t, index) => {
-        const card = document.createElement("div");
-        card.className = "tugas-card";
-        const isSelesai = tugasSelesai[tugasKeys[index]] || false;
-        card.innerHTML = `
-          <div class="tugas-mapel ${isSelesai ? 'tugas-selesai' : ''}">${t.mapel}</div>
-          <div class="tugas-desc ${isSelesai ? 'tugas-selesai' : ''}">${t.deskripsi}</div>
-          <div class="tugas-deadline ${isSelesai ? 'tugas-selesai' : ''}">Deadline: ${t.deadline}</div>
-          <div class="tugas-admin">
-            ${role !== "admin" ? `<input type="checkbox" class="checkbox" ${isSelesai ? 'checked' : ''} onchange="toggleSelesai('${tugasKeys[index]}', this.checked)">` : ''}
-          </div>
-        `;
-        if(role === "admin") {
-          const hapusBtn = document.createElement("button");
-          hapusBtn.textContent = "Hapus";
-          hapusBtn.className = "hapus-btn";
-          hapusBtn.onclick = () => hapusTugas(tugasKeys[index]);
-          card.querySelector('.tugas-admin').appendChild(hapusBtn);
-        }
-        tugasList.appendChild(card);
-      });
-    }
-
-    // Load status selesai dari Firebase
-    const selesaiRef = ref(db, 'tugasSelesai/' + absen);
-    onValue(selesaiRef, (snapshot) => {
-      tugasSelesai = snapshot.val() || {};
-      renderTugas(); // Render ulang saat status berubah
-    });
-
-    // Listen untuk perubahan tugas dari Firebase
-    const tugasRef = ref(db, 'tugas');
-    onValue(tugasRef, (snapshot) => {
-      const data = snapshot.val();
-      tugasData = data ? Object.values(data) : [];
-      tugasKeys = data ? Object.keys(data) : [];
-      renderTugas();
-      console.log("Tugas diperbarui:", tugasData);
-    });
-
-    // Event listener untuk tombol tambah tugas
-    const btnTambahTugas = document.getElementById("btnTambahTugas");
-    btnTambahTugas.addEventListener("click", function() {
-      console.log("Tombol tambah tugas diklik");
-      tambahTugas();
-    });
-
-    function tambahTugas(){
-      console.log("Fungsi tambahTugas dipanggil");
-      if(role !== "admin") {
-        console.log("Role bukan admin:", role);
-        alert("Hanya admin yang bisa menambah tugas!");
-        return;
-      }
-      const mapelBaru = document.getElementById("mapelBaru");
-      const tugasBaru = document.getElementById("tugasBaru");
-      const deadlineBaru = document.getElementById("deadlineBaru");
-      const mapel = mapelBaru.value.trim();
-      const desc = tugasBaru.value.trim();
-      const dead = deadlineBaru.value;
-      if(!mapel || !desc || !dead) {
-        alert("Isi semua field!");
-        return;
-      }
-      const newTugasRef = push(tugasRef);
-      set(newTugasRef, {
-        mapel: mapel,
-        deskripsi: desc,
-        deadline: dead
-      });
-      mapelBaru.value="";tugasBaru.value="";deadlineBaru.value="";
-      alert("Tugas berhasil dipublish kepada semua siswa!");
-    }
-
-    function hapusTugas(key) {
-      if(role !== "admin") return;
-      if(confirm("Yakin ingin hapus tugas ini?")) {
-        remove(ref(db, 'tugas/' + key));
-        alert("Tugas berhasil dihapus!");
-      }
-    }
-
-    window.toggleSelesai = (key, checked) => {
-      if(role === "admin") return;
-      tugasSelesai[key] = checked;
-      set(selesaiRef, tugasSelesai);
-      renderTugas(); // Render ulang untuk efek visual
-    };
-
-    /* TAMBAH SISWA */
-    const namaBaru = document.getElementById("namaBaru");
-    const absenBaru = document.getElementById("absenBaru");
-    const btnTambahSiswa = document.getElementById("btnTambahSiswa");
-    btnTambahSiswa.addEventListener("click", () => {
-      const nama = namaBaru.value.trim().toUpperCase();
-      const absen = absenBaru.value.trim();
-
-      if (!nama || !absen) return alert("Isi semua field!");
-
-      set(ref(db, "siswa/" + absen), {
-        nama: nama,
-        absen: absen,
+const btnImportSiswa = document.getElementById("btnImportSiswa");
+btnImportSiswa.addEventListener("click", async () => {
+  if (role !== "admin") return alert("Hanya admin yang bisa import siswa!");
+  if (confirm("Apakah Anda yakin ingin import semua 34 siswa? Ini akan menimpa data yang ada.")) {
+    for (const siswa of siswaData) {
+      await set(ref(db, "siswa/" + siswa.absen), {
+        nama: siswa.nama,
+        absen: siswa.absen,
         role: "siswa",
-        fotoURL: ""
+        fotoURL: "" // Kosongkan foto, bisa diupload nanti
       });
+    }
+    alert("Semua 34 siswa berhasil diimport ke Firebase!");
+  }
+});
 
-      namaBaru.value = "";
-      absenBaru.value = "";
-      alert("Siswa berhasil ditambahkan ke Firebase!");
+/* JADWAL MENARIK */
+const jadwalData = [
+ { hari: "Senin", mataPelajaran: "PKWU", waktu: "08:15 - 09:45" },
+  { hari: "Senin", mataPelajaran: "Kimia", waktu: "10:15 - 11:40" },
+  { hari: "Senin", mataPelajaran: "Matematika Minat", waktu: "12:30 - 13:50" },
+  { hari: "Senin", mataPelajaran: "Sejarah", waktu: "13:50 - 15:00" },
+  { hari: "Selasa", mataPelajaran: "Bimbingan Konseling", waktu: "07:00 - 07:40" },
+  { hari: "Selasa", mataPelajaran: "Matematika Wajib", waktu: "07:40 - 09:00" },
+  { hari: "Selasa", mataPelajaran: "Penjaskes", waktu: "09:00 - 11:30" },
+  { hari: "Selasa", mataPelajaran: "Fisika", waktu: "12:20 - 13:40" },
+  { hari: "Selasa", mataPelajaran: "Bahasa Inggris", waktu: "13:40 - 15:00" },
+  { hari: "Rabu", mataPelajaran: "Bahasa Indonesia", waktu: "07:00 - 08:20" },
+  { hari: "Rabu", mataPelajaran: "Matematika Minat", waktu: "08:20 - 09:40" },
+  { hari: "Rabu", mataPelajaran: "Seni Budaya", waktu: "10:10 - 11:30" },
+  { hari: "Rabu", mataPelajaran: "Biologi", waktu: "12:20 - 13:40" },
+  { hari: "Rabu", mataPelajaran: "Fisika", waktu: "13:40 - 15:00" },
+  { hari: "Kamis", mataPelajaran: "Bahasa Jawa", waktu: "07:00 - 07:40" },
+  { hari: "Kamis", mataPelajaran: "Kimia", waktu: "07:40 - 09:40" },
+  { hari: "Kamis", mataPelajaran: "Biologi", waktu: "10:10 - 10:50" },
+  { hari: "Kamis", mataPelajaran: "Agama", waktu: "12:20 - 13:40" },
+  { hari: "Kamis", mataPelajaran: "Bahasa Indonesia", waktu: "13:40 - 15:00" },
+  { hari: "Jumat", mataPelajaran: "Matematika Wajib", waktu: "07:00 - 08:30" },
+  { hari: "Jumat", mataPelajaran: "BMQ", waktu: "08:30 - 09:15" },
+  { hari: "Jumat", mataPelajaran: "PPKn", waktu: "09:45 - 11:15" }
+];
+
+const hariList = [...new Set(jadwalData.map(j => j.hari))]; 
+// Ambil daftar hari unik: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"]
+
+const jadwalButtons = document.getElementById("jadwalButtons");
+const jadwalDetail = document.getElementById("jadwalDetail");
+
+hariList.forEach(h => {
+  const b = document.createElement("button");
+  b.textContent = h;
+  b.className = "hari-btn";
+  b.onclick = () => tampilJadwal(h, b);
+  jadwalButtons.appendChild(b);
+});
+
+function tampilJadwal(hari, btn) {
+  document.querySelectorAll(".hari-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  jadwalDetail.innerHTML = "";
+  jadwalData
+    .filter(j => j.hari === hari)
+    .forEach(j => {
+      const card = document.createElement("div");
+      card.className = "jadwal-card";
+      card.innerHTML = `
+        <div class="jadwal-mapel">${j.mataPelajaran}</div>
+        <div class="jadwal-waktu">${j.waktu}</div>
+      `;
+      jadwalDetail.appendChild(card);
     });
+}
 
-    /* UBAH ABSEN SISWA (ADMIN) */
-    const absenLama = document.getElementById("absenLama");
-    const absenBaruAdmin = document.getElementById("absenBaruAdmin");
-    const btnUbahAbsen = document.getElementById("btnUbahAbsen");
-    btnUbahAbsen.addEventListener("click", async () => {
-      const lama = absenLama.value;
-      const baru = absenBaruAdmin.value;
+// auto buka hari pertama
+tampilJadwal(hariList[0], jadwalButtons.children[0]);
 
-      if (!lama || !baru) return alert("Isi semua field!");
+/* TUGAS MENARIK DENGAN CHECKLIST */
+let tugasData = [];
+let tugasKeys = []; // Simpan key untuk hapus
+let tugasSelesai = {}; // Status selesai per tugas per siswa
+const tugasList = document.getElementById("tugasList");
 
-      const oldRef = ref(db, "siswa/" + lama);
-      const snapshot = await get(oldRef);
+function renderTugas(){
+  tugasList.innerHTML="";
+  tugasData.forEach((t, index) => {
+    const card = document.createElement("div");
+    card.className = "tugas-card";
+    const isSelesai = tugasSelesai[tugasKeys[index]] || false;
+    card.innerHTML = `
+      <div class="tugas-mapel ${isSelesai ? 'tugas-selesai' : ''}">${t.mapel}</div>
+      <div class="tugas-desc ${isSelesai ? 'tugas-selesai' : ''}">${t.deskripsi}</div>
+      <div class="tugas-deadline ${isSelesai ? 'tugas-selesai' : ''}">Deadline: ${t.deadline}</div>
+      <div class="tugas-admin">
+        ${role !== "admin" ? `<input type="checkbox" class="checkbox" ${isSelesai ? 'checked' : ''} onchange="toggleSelesai('${tugasKeys[index]}', this.checked)">` : ''}
+      </div>
+    `;
+    if(role === "admin") {
+      const hapusBtn = document.createElement("button");
+      hapusBtn.textContent = "Hapus";
+      hapusBtn.className = "hapus-btn";
+      hapusBtn.onclick = () => hapusTugas(tugasKeys[index]);
+      card.querySelector('.tugas-admin').appendChild(hapusBtn);
+    }
+    tugasList.appendChild(card);
+  });
+}
 
-      if (!snapshot.exists()) {
-        alert("Siswa tidak ditemukan");
-        return;
-      }
+// Load status selesai dari Firebase
+const selesaiRef = ref(db, 'tugasSelesai/' + absen);
+onValue(selesaiRef, (snapshot) => {
+  tugasSelesai = snapshot.val() || {};
+  renderTugas(); // Render ulang saat status berubah
+});
 
-      const dataLama = snapshot.val();
-      // Update absen di objek
-      dataLama.absen = baru;  // Tambahkan ini
+// Listen untuk perubahan tugas dari Firebase
+const tugasRef = ref(db, 'tugas');
+onValue(tugasRef, (snapshot) => {
+  const data = snapshot.val();
+  tugasData = data ? Object.values(data) : [];
+  tugasKeys = data ? Object.keys(data) : [];
+  renderTugas();
+  console.log("Tugas diperbarui:", tugasData);
+});
 
-      // pindahkan data
-      await set(ref(db, "siswa/" + baru), dataLama);
-      await remove(oldRef);
+// Event listener untuk tombol tambah tugas
+const btnTambahTugas = document.getElementById("btnTambahTugas");
+btnTambahTugas.addEventListener("click", function() {
+  console.log("Tombol tambah tugas diklik");
+  tambahTugas();
+});
 
-      alert("Absen berhasil diubah!");
-      absenLama.value = "";
-      absenBaruAdmin.value = "";
-    });
+function tambahTugas(){
+  console.log("Fungsi tambahTugas dipanggil");
+  if(role !== "admin") {
+    console.log("Role bukan admin:", role);
+    alert("Hanya admin yang bisa menambah tugas!");
+    return;
+  }
+  const mapelBaru = document.getElementById("mapelBaru");
+  const tugasBaru = document.getElementById("tugasBaru");
+  const deadlineBaru = document.getElementById("deadlineBaru");
+  const mapel = mapelBaru.value.trim();
+  const desc = tugasBaru.value.trim();
+  const dead = deadlineBaru.value;
+  if(!mapel || !desc || !dead) {
+    alert("Isi semua field!");
+    return;
+  }
+  const newTugasRef = push(tugasRef);
+  set(newTugasRef, {
+    mapel: mapel,
+    deskripsi: desc,
+    deadline: dead
+  });
+  mapelBaru.value="";tugasBaru.value="";deadlineBaru.value="";
+  alert("Tugas berhasil dipublish kepada semua siswa!");
+}
 
-    /* LOGOUT */
-    const logoutBtn = document.querySelector(".logout");
-    logoutBtn.addEventListener("click", function() {
-      localStorage.clear();
-      location.href="login.html";
-    });
+function hapusTugas(key) {
+  if(role !== "admin") return;
+  if(confirm("Yakin ingin hapus tugas ini?")) {
+    remove(ref(db, 'tugas/' + key));
+    alert("Tugas berhasil dihapus!");
+  }
+}
+
+   window.toggleSelesai = (key, checked) => {
+  if(role === "admin") return;
+  tugasSelesai[key] = checked;
+  set(selesaiRef, tugasSelesai);
+  renderTugas(); // Render ulang untuk efek visual
+};
+
+/* TAMBAH SISWA */
+const namaBaru = document.getElementById("namaBaru");
+const absenBaru = document.getElementById("absenBaru");
+const btnTambahSiswa = document.getElementById("btnTambahSiswa");
+btnTambahSiswa.addEventListener("click", () => {
+  const nama = namaBaru.value.trim().toUpperCase();
+  const absen = absenBaru.value.trim();
+
+  if (!nama || !absen) return alert("Isi semua field!");
+
+  set(ref(db, "siswa/" + absen), {
+    nama: nama,
+    absen: absen,
+    role: "siswa",
+    fotoURL: ""
+  });
+
+  namaBaru.value = "";
+  absenBaru.value = "";
+  alert("Siswa berhasil ditambahkan ke Firebase!");
+});
+
+/* UBAH ABSEN SISWA (ADMIN) */
+const absenLama = document.getElementById("absenLama");
+const absenBaruAdmin = document.getElementById("absenBaruAdmin");
+const btnUbahAbsen = document.getElementById("btnUbahAbsen");
+btnUbahAbsen.addEventListener("click", async () => {
+  const lama = absenLama.value;
+  const baru = absenBaruAdmin.value;
+
+  if (!lama || !baru) return alert("Isi semua field!");
+
+  const oldRef = ref(db, "siswa/" + lama);
+  const snapshot = await get(oldRef);
+
+  if (!snapshot.exists()) {
+    alert("Siswa tidak ditemukan");
+    return;
+  }
+
+  const dataLama = snapshot.val();
+  // Update absen di objek
+  dataLama.absen = baru;  // Tambahkan ini
+
+  // pindahkan data
+  await set(ref(db, "siswa/" + baru), dataLama);
+  await remove(oldRef);
+
+  alert("Absen berhasil diubah!");
+  absenLama.value = "";
+  absenBaruAdmin.value = "";
+});
+
+/* LOGOUT */
+const logoutBtn = document.querySelector(".logout");
+logoutBtn.addEventListener("click", function() {
+  localStorage.clear();
+  location.href="login.html";
+});
   }
 </script>
 
 </body>
 </html>
-
