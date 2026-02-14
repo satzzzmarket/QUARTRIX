@@ -115,7 +115,7 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
   <input id="absenLama" type="number" placeholder="Absen Lama">
   <input id="absenBaruAdmin" type="number" placeholder="Absen Baru">
   <button id="btnUbahAbsen" class="btn-menarik">🔄 Ubah Absen</button>
-  <h2>Daftar Siswa (Akun Login)</h2>
+  <h2>Daftar Siswa Sedang Login</h2>
   <div id="daftarSiswa"></div>
 </div>
 
@@ -168,7 +168,7 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
 <!-- Firebase SDK dan Semua Kode JS -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-  import { getDatabase, ref, set, onValue, push, remove, get } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+  import { getDatabase, ref, set, onValue, push, remove, get, onDisconnect } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
   import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 
   // Config Firebase Anda
@@ -277,7 +277,6 @@ function updateProfil(newNama, newAbsen, newAbsenLogin, fotoURL) {
   alert("Profil berhasil disimpan!");
 }
 
-
 /* ADMIN */
 const adminPanel = document.getElementById("adminPanel");
 const tambahTugasPanel = document.getElementById("tambahTugasPanel");
@@ -285,26 +284,31 @@ if(role==="admin"){
   adminPanel.style.display="block";
   tambahTugasPanel.style.display="block";
   editProfilBtn.style.display = "none"; // Admin tidak edit profil
-  renderDaftarSiswa(); // Render daftar siswa untuk admin
+  renderDaftarSiswa(); // Render daftar siswa sedang login untuk admin
   console.log("Panel admin dan tugas ditampilkan untuk role:", role);
 } else {
   console.log("Role bukan admin, panel tidak ditampilkan. Role saat ini:", role);
 }
 
+// Set user online saat login
+const onlineRef = ref(db, "online/" + absen);
+set(onlineRef, { nama: nama, role: role });
+onDisconnect(onlineRef).remove(); // Hapus saat disconnect
+
 function renderDaftarSiswa() {
   const daftarSiswaDiv = document.getElementById("daftarSiswa");
 
-  onValue(ref(db, "siswa"), (snapshot) => {
+  onValue(ref(db, "online"), (snapshot) => {
     daftarSiswaDiv.innerHTML = "<ul>";
 
     snapshot.forEach(child => {
-      const absen = child.key;
+      const absenKey = child.key;
       const data = child.val();
 
       daftarSiswaDiv.innerHTML += `
         <li>
-          <span>${data.nama}</span>
-          <span>Absen: ${absen}</span>
+          <span>${data.nama} (${data.role})</span>
+          <span>Absen: ${absenKey} - Online</span>
         </li>
       `;
     });
@@ -312,7 +316,6 @@ function renderDaftarSiswa() {
     daftarSiswaDiv.innerHTML += "</ul>";
   });
 }
-
 
 /* JADWAL MENARIK */
 const jadwalData = [
@@ -531,6 +534,3 @@ logoutBtn.addEventListener("click", function() {
 
 </body>
 </html>
-
-
-
