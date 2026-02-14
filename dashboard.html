@@ -158,6 +158,7 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
     <label for="editFoto">Foto Profil</label>
     <div class="keterangan">Upload foto baru (format gambar seperti JPG, PNG). Jika tidak diubah, foto lama tetap digunakan.</div>
     <input id="editFoto" type="file" accept="image/*">
+    <button id="hapusFotoBtn" type="button" style="background:#e74c3c;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-weight:600;cursor:pointer;margin-top:0.5rem;">Hapus Foto</button>
     
     <button onclick="simpanProfil()">Simpan</button>
   </div>
@@ -238,6 +239,15 @@ footer{text-align:center;padding:1rem;background:#3e2c23}
       document.getElementById("editAbsenLogin").value = absen; // Absen login dari localStorage
       modalProfil.style.display = "flex";
     });
+
+    const hapusFotoBtn = document.getElementById("hapusFotoBtn");
+hapusFotoBtn.addEventListener("click", () => {
+  if (role === "admin") return alert("Admin tidak bisa hapus foto!");
+  const defaultFotoURL = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9IiNmZmY1ZTYiLz4KPHBhdGggZD0iTTI1IDI1QzI3LjIgMjUgMjkgMjIuMiAyOSAyMEMyOSAxNy44IDI3LjIgMTYgMjUgMTZDMTYuOCAxNiAxNSAxNy44IDE1IDIwQzE1IDIyLjIgMTYuOCAyNSAyNSAyNVoiIGZpbGw9IiMzZTJjMjMiLz4KPHBhdGggZD0iTTMwIDI1QzMwIDI4LjMgMjcuMyAzMSAyNSAzMUMyMi43IDMxIDIwIDI4LjMgMjAgMjVDMjAgMjEuNyAyMi43IDE5IDI1IDE5QzI3LjMgMTkgMzAgMjEuNyAzMCAyNVoiIGZpbGw9IiMzZTJjMjMiLz4KPC9zdmc+";
+  profilData.fotoURL = defaultFotoURL;
+  document.getElementById("profilFoto").src = defaultFotoURL;
+  alert("Foto profil berhasil dihapus dan dikembalikan ke default!");
+});
 
     window.closeModal = () => modalProfil.style.display = "none";
 
@@ -534,3 +544,4 @@ logoutBtn.addEventListener("click", function() {
 
 </body>
 </html>
+
